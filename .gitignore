@@ -1,0 +1,14 @@
+*.o
+*.s
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.dSYM
+.ds_store
+.DS_STORE
+*.exe
+a.out
+sokoban
+
