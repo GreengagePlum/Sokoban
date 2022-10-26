@@ -6,5 +6,7 @@ Les consignes et l'énoncé se trouve à cette address [TP Sokoban](https://tech
 
 Problèmes rencontrés : ...
 
-Version gcc : gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+Versions gcc/clang :
+	gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+	Apple clang version 14.0.0 (clang-1400.0.29.102)
 
