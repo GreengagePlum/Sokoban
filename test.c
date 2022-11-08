@@ -23,15 +23,30 @@ int main01()
     return 0;
 }
 
-int main() {
+int main02() {
     // Test de la fonction init_level() dans grid.c
     grid* level = init_level("level1.txt");
 
-    printf("Number of lines is %d\n", level->row_number);
-    printf("Number of columns is %d\n", level->column_number);
-    printf("Grid block at coordinates (12,5) %c\n", level->game_grid[5][12]);
-    printf("Grid block at coordinates (7,2) %c\n", level->game_grid[2][7]);
+    printf("Number of lines is: %d\n", level->row_number);
+    printf("Number of columns is: %d\n", level->column_number);
+    printf("Grid block at coordinates (9,5): %c\n", level->game_grid[5][9]);
+    printf("Grid block at coordinates (7,2): %c\n", level->game_grid[2][7]);
+    printf("Player coordinates at start: (%d, %d)\n", level->player.x, level->player.y);
 
     free_grid(level);
+    return 0;
+}
+
+int main03() {
+    // Test de la fonction display_stdio() et display_ncurses() dans grid.c
+    grid* level = init_level("level1.txt");
+    // display_stdio(level);
+    display_ncurses(level);
+    free_grid(level);
+    return 0;
+}
+
+int main() {
+
     return 0;
 }
