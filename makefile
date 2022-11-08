@@ -1,33 +1,42 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
-SOURCES = $(wildcard *.c)
+CFLAGS = -Wall -Wextra -g		# L'option de debug -g à enlever
+ALL_SOURCES = $(wildcard *.c)
+TEST_SOURCES = $(filter-out main.c, $(ALL_SOURCES))
+SOURCES = $(filter-out test.c, $(ALL_SOURCES))
 HEADERS = $(wildcard *.h)
+TEST_OBJECTS = $(TEST_SOURCES:.c=.o)
 OBJECTS = $(SOURCES:.c=.o)
-MAKEFILE = makefile
-README = README.md
-DOXYFILE = Doxyfile
-DOXYGEN = doxygen
 DOXYGEN_FLAGS =
 LEVELS = $(wildcard level*.txt)
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
-ARCHIVE_SOURCES = $(SOURCES) $(HEADERS) $(MAKEFILE) $(LEVELS) $(README) $(DOXYFILE)
-ARCHIVE = tar
+ARCHIVE_SOURCES = $(SOURCES) $(HEADERS) makefile $(LEVELS) README.md Doxyfile
+ARCHIVER = tar
 ARCHIVE_FLAGS = -cvzf
+TEST_EXEC = sokoban_test
 EXEC = sokoban
+
+.PHONY : all test clean doc archive
+
+all : $(EXEC)
+
+test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-%.o : %.c
+$(TEST_EXEC) : $(TEST_OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+%.o : %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
 clean :
-	rm sokoban
-	rm *.o
+	rm -f $(EXEC) $(TEST_EXEC) $(OBJECTS)
 
 doc :
-	$(DOXYGEN) $(DOXYGEN_FLAGS)
+	doxygen $(DOXYGEN_FLAGS)
 
-archive : $(ARCHIVE_SOURCES)
-	$(ARCHIVE) $(ARCHIVE_FLAGS) $(ARCHIVE_NAME) $^
+archive : $(ARCHIVE_NAME)
 
+$(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
+	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
