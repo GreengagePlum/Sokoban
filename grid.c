@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ncurses.h>
 #include "grid.h"
+#include "player.h"
 
 grid *creer_grid(int row, int column)
 {
@@ -69,6 +71,10 @@ grid *init_level(const char *file_path)
         while (*buffer && *buffer != '\n')
         {
             level->game_grid[current_row][current_column] = *buffer;
+            if (*buffer == '@') {
+                level->player.x = current_column;
+                level->player.y = current_row;
+            }
 
             current_column += 1;
             buffer += 1;
@@ -78,4 +84,31 @@ grid *init_level(const char *file_path)
     // fermeture du fichier
     fclose(file);
     return level;
+}
+
+void display_stdio(grid *G) {
+    for (int row = 0; row < G->row_number; row++) {
+        for (int column = 0; column < G->column_number; column++) {
+            printf("%c", G->game_grid[row][column]);
+        }
+        printf("\n");
+    }
+}
+
+void display_ncurses(grid *G) {
+    initscr();
+    printw("Appuyez sur \"q\" pour quitter\n\n");
+    for (int row = 0; row < G->row_number; row++) {
+        for (int column = 0; column < G->column_number; column++) {
+            printw("%c", G->game_grid[row][column]);
+        }
+        printw("\n");
+    }
+    refresh();
+    char quitCar = '\0';
+    noecho();
+    while (quitCar != 'q') {
+        quitCar = (char) getch();
+    }
+    endwin();
 }
