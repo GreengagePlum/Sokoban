@@ -62,7 +62,7 @@ grid *init_level(const char *file_path)
     grid *level = creer_grid(number_row, number_column);
 
     int current_row = 0;
-    int current_goal = 0;
+    // int current_goal = 0;
     // On lit le fichier ligne par ligne jusqu'à la fin du fichier
     while (fgets(line, 100, file) != NULL)
     {
@@ -86,7 +86,7 @@ grid *init_level(const char *file_path)
     return level;
 }
 
-void display_stdio(grid *G) {
+void display(grid *G) {
     for (int row = 0; row < G->row_number; row++) {
         for (int column = 0; column < G->column_number; column++) {
             printf("%c", G->game_grid[row][column]);
@@ -95,9 +95,13 @@ void display_stdio(grid *G) {
     }
 }
 
-void display_ncurses(grid *G) {
+char display_ncurses(grid *G) {
     initscr();
-    printw("Appuyez sur \"q\" pour quitter\n\n");
+    clear();
+    noecho();
+    cbreak();
+    printw("Appuyez sur \"q\" pour quitter\n");
+    printw("Appuyez sur \"h, j, k, l\" pour vous déplacer\n\n");
     for (int row = 0; row < G->row_number; row++) {
         for (int column = 0; column < G->column_number; column++) {
             printw("%c", G->game_grid[row][column]);
@@ -106,9 +110,9 @@ void display_ncurses(grid *G) {
     }
     refresh();
     char quitCar = '\0';
-    noecho();
-    while (quitCar != 'q') {
+    while (quitCar != 'q' && quitCar != 'h' && quitCar != 'j' && quitCar != 'k' && quitCar != 'l') {
         quitCar = (char) getch();
     }
     endwin();
+    return quitCar;
 }
