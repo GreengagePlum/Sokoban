@@ -1,9 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g		# L'option de debug -g à enlever
+CLIBS = -lncurses
 ALL_SOURCES = $(wildcard *.c)
 TEST_SOURCES = $(filter-out main.c, $(ALL_SOURCES))
 SOURCES = $(filter-out test.c, $(ALL_SOURCES))
 HEADERS = $(wildcard *.h)
+ALL_OBJECTS = $(ALL_SOURCES:.c=.o)
 TEST_OBJECTS = $(TEST_SOURCES:.c=.o)
 OBJECTS = $(SOURCES:.c=.o)
 DOXYGEN_FLAGS =
@@ -22,16 +24,16 @@ all : $(EXEC)
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
 
 %.o : %.c %.h
 	$(CC) $(CFLAGS) -c $<
 
 clean :
-	rm -f $(EXEC) $(TEST_EXEC) $(OBJECTS)
+	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS)
 
 doc :
 	doxygen $(DOXYGEN_FLAGS)
