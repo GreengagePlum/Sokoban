@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "grid.h"
+#include "player.h"
 
 int main01()
 {
@@ -38,15 +39,25 @@ int main02() {
 }
 
 int main03() {
-    // Test de la fonction display_stdio() et display_ncurses() dans grid.c
+    // Test de la fonction display() dans grid.c
     grid* level = init_level("level1.txt");
-    // display_stdio(level);
-    display_ncurses(level);
+    display(level);
     free_grid(level);
     return 0;
 }
 
 int main() {
-
+    // Test de la fonction move_player() dans player.c
+    grid* level = init_level("level1.txt");
+    char quitCar = '\0';
+    while (quitCar != 'q') {
+        printf("Appuyez sur \"q\" pour quitter\n");
+        printf("Appuyez sur \"h, j, k, l\" pour vous déplacer\n\n");
+        display(level);
+        printf("Votre choix : ");
+        scanf(" %c", &quitCar);
+        move_player(level, quitCar);
+    }
+    free_grid(level);
     return 0;
 }
