@@ -9,7 +9,6 @@ HEADERS = $(wildcard *.h)
 ALL_OBJECTS = $(ALL_SOURCES:.c=.o)
 TEST_OBJECTS = $(TEST_SOURCES:.c=.o)
 OBJECTS = $(SOURCES:.c=.o)
-DOXYGEN_FLAGS =
 LEVELS = $(wildcard level*.txt)
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
 ARCHIVE_SOURCES = $(SOURCES) $(HEADERS) makefile $(LEVELS) README.md Doxyfile
@@ -37,7 +36,7 @@ clean :
 	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS)
 
 doc :
-	doxygen $(DOXYGEN_FLAGS)
+	doxygen Doxyfile
 
 archive : $(ARCHIVE_NAME)
 
