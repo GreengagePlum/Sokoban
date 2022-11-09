@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g		# L'option de debug -g à enlever
-CLIBS = -lncurses
+LDFLAGS =
+LDLIBS = -lncurses
 ALL_SOURCES = $(wildcard *.c)
 TEST_SOURCES = $(filter-out main.c, $(ALL_SOURCES))
 SOURCES = $(filter-out test.c, $(ALL_SOURCES))
@@ -24,10 +25,10 @@ all : $(EXEC)
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
 %.o : %.c %.h
 	$(CC) $(CFLAGS) -c $<
