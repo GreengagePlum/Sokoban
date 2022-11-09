@@ -4,7 +4,7 @@
 #include "grid.h"
 #include "player.h"
 
-grid *creer_grid(int row, int column)
+grid *creer_level(int row, int column)
 {
     grid *G = (grid *)malloc(sizeof(grid));
     if (G == NULL)
@@ -32,7 +32,7 @@ grid *creer_grid(int row, int column)
     return G;
 }
 
-void free_grid(grid *G)
+void free_level(grid *G)
 {
     for (int i = 0; i < G->row_number; i++)
     {
@@ -59,7 +59,7 @@ grid *init_level(const char *file_path)
     fgets(line, 100, file);
     sscanf(line, "%d %d %d", &number_column, &number_row, &number_goals);
 
-    grid *level = creer_grid(number_row, number_column);
+    grid *level = creer_level(number_row, number_column);
 
     int current_row = 0;
     // int current_goal = 0;

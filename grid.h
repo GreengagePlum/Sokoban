@@ -9,7 +9,9 @@ enum CaseType
     BOX = '$',
     PLAYER = '@',
     GOAL = '.',
-    NONE = ' '
+    NONE = ' ',
+    BOX_GOAL = '*',
+    PLAYER_GOAL = '+'
 };
 
 /**
@@ -27,9 +29,9 @@ typedef struct Grid
 
 grid *init_level(const char *file_path);
 
-grid *creer_grid(int row, int column);
+grid *creer_level(int row, int column);
 
-void free_grid(grid *G);
+void free_level(grid *G);
 
 void display(grid *G);
 
