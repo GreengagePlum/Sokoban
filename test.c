@@ -56,7 +56,9 @@ int main() {
         display(level);
         printf("Votre choix : ");
         scanf(" %c", &quitCar);
-        move_player(level, quitCar);
+        if (quitCar == 'h' || quitCar == 'j' || quitCar == 'k' || quitCar == 'l') {
+            move_player(level, quitCar);
+        }
     }
     free_level(level);
     return 0;
