@@ -35,6 +35,6 @@ void free_level(grid *G);
 
 void display(grid *G);
 
-char display_ncurses(grid *G);
+void display_ncurses(grid *G);
 
 #endif
