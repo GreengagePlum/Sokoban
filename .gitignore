@@ -12,6 +12,7 @@
 .DS_STORE
 *.exe
 a.out
+html
+latex
 sokoban
 sokoban_test
-
