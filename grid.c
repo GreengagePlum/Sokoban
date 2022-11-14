@@ -69,7 +69,7 @@ grid *creer_level(int row, int column)
  *
  * @param [in] G Pointeur sur une structure @c grid
  *
- * @pre @a G doit être non NULL et pointer sur la structure allouée
+ * @pre @a G doit être non @c NULL et pointer sur la structure allouée
  * @post @a G contient toujours l'adresse qu'il avait
  *
  * Cette fonction prend en paramètre un pointeur sur une structure @c grid
@@ -160,7 +160,7 @@ grid *init_level(const char *file_path)
  *
  * @param [in] G Pointeur sur la structure qui stocke le niveau
  *
- * @pre @a G doit être non NULL et pointer sur la structure allouée
+ * @pre @a G doit être non @c NULL et pointer sur la structure allouée
  * @post Affichage des caractères
  *
  * Cette fonction parcourt le tableau dans la structure qui stocke les cases du niveau
@@ -181,7 +181,7 @@ void display(grid *G) {
  *
  * @param [in] G Pointeur sur la structure qui stocke le niveau
  *
- * @pre @a G doit être non NULL et pointer sur la structure allouée
+ * @pre @a G doit être non @c NULL et pointer sur la structure allouée
  * @post Affichage des caractères, appuyez sur 'q' pour quitter
  *
  * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
