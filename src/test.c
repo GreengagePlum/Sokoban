@@ -26,7 +26,7 @@ int main01()
 
 int main02() {
     // Test de la fonction init_level() dans grid.c
-    grid* level = init_level("level1.txt");
+    grid* level = init_level("levels/level1.txt");
 
     printf("Number of lines is: %d\n", level->row_number);
     printf("Number of columns is: %d\n", level->column_number);
@@ -40,7 +40,7 @@ int main02() {
 
 int main03() {
     // Test de la fonction display() dans grid.c
-    grid* level = init_level("level1.txt");
+    grid* level = init_level("levels/level1.txt");
     display(level);
     free_level(level);
     return 0;
@@ -48,7 +48,7 @@ int main03() {
 
 int main() {
     // Test de la fonction move_player() dans player.c
-    grid* level = init_level("level1.txt");
+    grid* level = init_level("levels/level1.txt");
     char quitCar = '\0';
     while (quitCar != 'q') {
         printf("Appuyez sur \"q\" pour quitter\n");
