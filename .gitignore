@@ -1,6 +1,8 @@
 *.o
 *.s
 *.a
+*.d
+*.Td
 *.lib
 *.so
 *.dylib
@@ -12,7 +14,6 @@
 .DS_STORE
 *.exe
 a.out
-html
-latex
+doc/doxygen/
 sokoban
 sokoban_test
