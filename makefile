@@ -4,9 +4,12 @@ CPPFLAGS = -I include
 CFLAGS = -Wall -Wextra -g
 LDFLAGS =
 LDLIBS = -lncurses
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
+POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 SPATH = src/
 HPATH = include/
 OPATH = obj/
+DPATH = dep/
 LEVELPATH = levels/
 ALL_SOURCES = $(wildcard $(SPATH)*.c)
 TEST_SOURCES = $(filter-out $(SPATH)main.c, $(ALL_SOURCES))
@@ -15,6 +18,7 @@ HEADERS = $(wildcard $(HPATH)*.h)
 ALL_OBJECTS = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(ALL_SOURCES))))
 TEST_OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(TEST_SOURCES))))
 OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(SOURCES))))
+ALL_DEPENDS = $(addprefix $(DPATH),$(patsubst %.c,%.d,$(notdir $(ALL_SOURCES))))
 LEVELS = $(wildcard $(LEVELPATH)level*.txt)
 DOCGEN = doxygen
 DOXYFILE = doc/Doxyfile
@@ -37,15 +41,23 @@ $(EXEC) : $(OBJECTS)
 $(TEST_EXEC) : $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-$(OPATH)%.o : $(SPATH)%.c $(HPATH)%.h | $(OPATH)
-	@echo "-o $@ -c $^"
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+$(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
+	$(CC) $(DEPFLAGS) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	@$(POSTCOMPILE)
 
 $(OPATH) :
 	mkdir -p $@
 
+$(DPATH) :
+	mkdir -p $@
+
+$(ALL_DEPENDS) :
+
+# include $(wildcard $(ALL_DEPENDS))
+-include $(ALL_DEPENDS)
+
 clean :
-	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS)
+	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS) $(ALL_DEPENDS)
 
 doc :
 	$(DOCGEN) $(DOXYFILE)
@@ -54,13 +66,4 @@ archive : $(ARCHIVE_NAME)
 
 $(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
 	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
-
-echo :
-	@echo "All_SOURCES = $(ALL_SOURCES)"
-	@echo "TEST_SOURCES = $(TEST_SOURCES)"
-	@echo "SOURCES = $(SOURCES)"
-	@echo "HEADERS = $(HEADERS)"
-	@echo "All_OBJECTS = $(ALL_OBJECTS)"
-	@echo "TEST_OBJECTS = $(TEST_OBJECTS)"
-	@echo "OBJECTS = $(OBJECTS)"
 

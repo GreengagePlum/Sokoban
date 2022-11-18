@@ -2,6 +2,7 @@
 *.s
 *.a
 *.d
+*.Td
 *.lib
 *.so
 *.dylib
