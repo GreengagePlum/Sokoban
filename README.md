@@ -34,3 +34,22 @@ Apple clang version 14.0.0 (clang-1400.0.29.102)
 Le dépôt git de ce projet suit une structure clair et détérminée proposé par Vincent Driessen à son poste [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
 
 Du coup ne soyez pas surpris par le fait que `branch main` n'a presque pas de commit. Tout le developpement se passe sur le `branch develop`. Avant chaque version, tout est préparé et assuré fonctionnel pour être inauguré au `branch main` qui n'a que des versions stables et complètes.
+
+### Légende emoji
+✨ NEW
+
+🔧 UPDATE
+
+🔨 CONFIG
+
+♻️ REFACTOR
+
+🐛 BUGFIX
+
+🔥 DELETION
+
+📝 DOC
+
+🎉 EPOCH
+
+🚀 RELEASE
