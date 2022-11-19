@@ -1,3 +1,14 @@
+/**
+ * @file test.c
+ * @author Efe ERKEN (efe.erken@etu.unistra.fr)
+ * @brief Fichier source pour tester les fonctions avant de les inaugurer
+ * @version 0.1
+ * @date 2022-11-19
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -6,7 +17,7 @@
 
 int main01()
 {
-    // Test des fonctions creer_level() et free_level() dans grid.c
+    /// Test des fonctions creer_level() et free_level() dans grid.c
     int row = 11;
     int column = 26;
 
@@ -25,7 +36,7 @@ int main01()
 }
 
 int main02() {
-    // Test de la fonction init_level() dans grid.c
+    /// Test de la fonction init_level() dans grid.c
     grid* level = init_level("levels/level1.txt");
 
     printf("Number of lines is: %d\n", level->row_number);
@@ -39,7 +50,7 @@ int main02() {
 }
 
 int main03() {
-    // Test de la fonction display() dans grid.c
+    /// Test de la fonction display() dans grid.c
     grid* level = init_level("levels/level1.txt");
     display(level);
     free_level(level);
@@ -47,7 +58,7 @@ int main03() {
 }
 
 int main() {
-    // Test de la fonction move_player() dans player.c
+    /// Test de la fonction move_player() dans player.c
     grid* level = init_level("levels/level1.txt");
     char quitCar = '\0';
     while (quitCar != 'q') {
