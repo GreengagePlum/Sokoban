@@ -16,5 +16,6 @@
 *.exe
 a.out
 doc/doxygen/
+ERKEN_Efe.tar.gz
 sokoban
 sokoban_test
