@@ -36,7 +36,7 @@ grid *creer_level(int row, int column)
     // on vérifie si l'allocation s'est bien passée
     if (G == NULL)
     {
-        fprintf(stderr, "Error G structure alloc failed");
+        fprintf(stderr, "Error game structure alloc failed");
         exit(-1);
     }
     // on alloue la première dimension du tableau dynamique à deux dimensions dans la structure
