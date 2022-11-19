@@ -12,6 +12,7 @@
 .DS_store
 .DS_Store
 .DS_STORE
+.vscode/
 *.exe
 a.out
 doc/doxygen/
