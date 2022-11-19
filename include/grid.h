@@ -24,13 +24,13 @@
  */
 enum CaseType
 {
-    WALL = '#',
-    BOX = '$',
-    PLAYER = '@',
-    GOAL = '.',
-    NONE = ' ',
-    BOX_GOAL = '*',
-    PLAYER_GOAL = '+'
+    WALL = '#',       ///< Un mur
+    BOX = '$',        ///< Une boîte
+    PLAYER = '@',     ///< Le joueur
+    GOAL = '.',       ///< Les objectifs
+    NONE = ' ',       ///< Le vide
+    BOX_GOAL = '*',   ///< Superposition d'une boîte et d'un objectif
+    PLAYER_GOAL = '+' ///< Superposition d'un joueur et d'un objectif
 };
 
 /**
