@@ -2,7 +2,7 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.1
+ * @version 0.2
  * @date 2022-11-10
  *
  * @copyright Copyright (c) 2022
@@ -115,10 +115,10 @@ grid *init_level(const char *file_path)
         fprintf(stderr, "Error %s not found", file_path);
         exit(-1);
     }
-    char line[100] = {0}; // buffer pour lire une ligne dans le fichier
+    char line[100] = {0};  // buffer pour lire une ligne dans le fichier
     int number_column = 0; // nombre de colonne
-    int number_row = 0; // nombre de ligne
-    int number_goals = 0; // nombre d'objectifs
+    int number_row = 0;    // nombre de ligne
+    int number_goals = 0;  // nombre d'objectifs
     // on lit la première ligne du fichier
     fgets(line, 100, file);
     // on récupère les informations sur le niveau depuis la première ligne
@@ -140,7 +140,8 @@ grid *init_level(const char *file_path)
             // on charge chaque case dans la structure
             level->game_grid[current_row][current_column] = *buffer;
             // on initialise la position du joueur dans la structure quand on la retrouve
-            if (*buffer == '@') {
+            if (*buffer == '@')
+            {
                 level->player.x = current_column;
                 level->player.y = current_row;
             }
@@ -189,7 +190,8 @@ void display(grid *G) {
  * avec beaucoup d'affichages inutiles et aussi pour présenter une interface plus agréable
  * et professionnel pour le jeu.
  */
-void display_ncurses(grid *G) {
+void display_ncurses(grid *G)
+{
     // on initialise <ncurses.h>
     initscr();
     // on efface le buffer d'avant
@@ -198,8 +200,10 @@ void display_ncurses(grid *G) {
     cbreak();
     printw("Appuyez sur \"q\" pour quitter\n");
     // on parcourt chaque ligne et colonne du tableau pour charger dans le buffer
-    for (int row = 0; row < G->row_number; row++) {
-        for (int column = 0; column < G->column_number; column++) {
+    for (int row = 0; row < G->row_number; row++)
+    {
+        for (int column = 0; column < G->column_number; column++)
+        {
             printw("%c", G->game_grid[row][column]);
         }
         printw("\n");
@@ -208,9 +212,79 @@ void display_ncurses(grid *G) {
     refresh();
     // on attend jusqu'à ce que l'utilisateur appuie sur la touche 'q' pour quitter
     char quitCar = '\0';
-    while (quitCar != 'q') {
-        quitCar = (char) getch();
+    while (quitCar != 'q')
+    {
+        quitCar = (char)getch();
     }
+    // on referme <ncurses.h> pour désallouer la mémoire qu'elle utilisait
+    endwin();
+}
+
+void init_display()
+{
+    // on initialise <ncurses.h>
+    initscr();
+    // on efface le buffer d'avant
+    clear();
+    // on établi les options <ncurses.h> nécessaires
+    noecho();
+    cbreak();
+}
+
+void draw_display(grid *G)
+{
+    // on efface le buffer d'avant
+    clear();
+    // on charge dans le buffer les messages sur comment interagir
+    mvprintw(0, 0, "Appuyez sur \"q\" pour quitter");
+    mvprintw(1, 0, "Appuyez sur \"h, j, k, l\" pour vous déplacer");
+    // on recherche la taille maximale de la fenêtre
+    int maxY, maxX;
+    getmaxyx(stdscr, maxY, maxX);
+    // on retrouve les coordonnées telles que le niveau soit centré pour commencer l'affichage
+    int centerY = (maxY - G->row_number) / 2;
+    int centerX = (maxX - G->column_number) / 2;
+    // on parcourt chaque ligne et colonne du tableau pour charger dans le buffer
+    // on veille à régler le curseur à chaque caractère pour que le niveau soit centré au final
+    for (int row = 0, cursorY = centerY; row < G->row_number; row++, cursorY++)
+    {
+        for (int column = 0, cursorX = centerX; column < G->column_number; column++, cursorX++)
+        {
+            mvprintw(cursorY, cursorX, "%c", G->game_grid[row][column]);
+        }
+    }
+    // on écarte le curseur pour ne pas être dérangé
+    move(2, 0);
+    // on affiche le buffer, donc le niveau entier
+    refresh();
+}
+
+char input_display()
+{
+    // on vide d'abord le buffer d'entrée
+    nodelay(stdscr, TRUE);
+    while ((getch()) != ERR);
+    nodelay(stdscr, FALSE);
+    // on lit une touche au clavier
+    return (char)getch();
+}
+
+void error_input_display()
+{
+    // on efface le buffer d'avant
+    clear();
+    // on charge dans le buffer un message d'erreur
+    mvprintw(0, 0, "---> Cette touche n'a pas de fonctionnalité");
+    // on écarte le curseur pour ne pas être dérangé
+    move(1, 0);
+    // on affiche le buffer, donc le message d'erreur
+    refresh();
+    // on donne à l'utilisateur 3 secondes pour lire le message
+    napms(3000);
+}
+
+void end_display()
+{
     // on referme <ncurses.h> pour désallouer la mémoire qu'elle utilisait
     endwin();
 }

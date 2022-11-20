@@ -5,7 +5,7 @@
  * @file grid.h
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier header contenant les structures de données pour traiter les niveaux du jeu sokoban
- * @version 0.1
+ * @version 0.2
  * @date 2022-11-14
  *
  * @copyright Copyright (c) 2022
@@ -56,6 +56,14 @@ void free_level(grid *G);
 
 void display(grid *G);
 
-void display_ncurses(grid *G);
+void init_display();
+
+void draw_display(grid *G);
+
+char input_display();
+
+void error_input_display();
+
+void end_display();
 
 #endif

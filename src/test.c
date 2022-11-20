@@ -2,7 +2,7 @@
  * @file test.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source pour tester les fonctions avant de les inaugurer
- * @version 0.1
+ * @version 0.2
  * @date 2022-11-19
  *
  * @copyright Copyright (c) 2022
@@ -21,7 +21,7 @@ int main01()
     int row = 11;
     int column = 26;
 
-    grid* level = creer_level(row, column);
+    grid *level = creer_level(row, column);
     level->game_grid[0][0] = '#';
     level->game_grid[3][1] = '@';
 
@@ -35,9 +35,10 @@ int main01()
     return 0;
 }
 
-int main02() {
+int main02()
+{
     /// Test de la fonction init_level() dans grid.c
-    grid* level = init_level("levels/level1.txt");
+    grid *level = init_level("levels/level1.txt");
 
     printf("Number of lines is: %d\n", level->row_number);
     printf("Number of columns is: %d\n", level->column_number);
@@ -49,28 +50,63 @@ int main02() {
     return 0;
 }
 
-int main03() {
+int main03()
+{
     /// Test de la fonction display() dans grid.c
-    grid* level = init_level("levels/level1.txt");
+    grid *level = init_level("levels/level1.txt");
     display(level);
     free_level(level);
     return 0;
 }
 
-int main() {
+int main04()
+{
     /// Test de la fonction move_player() dans player.c
-    grid* level = init_level("levels/level1.txt");
+    grid *level = init_level("levels/level1.txt");
     char quitCar = '\0';
-    while (quitCar != 'q') {
+    while (quitCar != 'q')
+    {
         printf("Appuyez sur \"q\" pour quitter\n");
         printf("Appuyez sur \"h, j, k, l\" pour vous déplacer\n\n");
         display(level);
         printf("Votre choix : ");
         scanf(" %c", &quitCar);
-        if (quitCar == 'h' || quitCar == 'j' || quitCar == 'k' || quitCar == 'l') {
+        if (quitCar == 'h' || quitCar == 'j' || quitCar == 'k' || quitCar == 'l')
+        {
             move_player(level, quitCar);
         }
     }
+    free_level(level);
+    return 0;
+}
+
+int main()
+{
+    /// Test de la famille de fonctions display() qui utilisent <ncurses.h>
+    grid *level = init_level("levels/level1.txt");
+    init_display();
+    char entry = '\0';
+    bool run = true;
+    while (run)
+    {
+        draw_display(level);
+        entry = input_display();
+        switch (entry)
+        {
+        case 'q':
+            run = false;
+            break;
+        case 'h':
+        case 'j':
+        case 'k':
+        case 'l':
+            move_player(level, entry);
+            break;
+        default:
+            error_input_display();
+        }
+    }
+    end_display();
     free_level(level);
     return 0;
 }
