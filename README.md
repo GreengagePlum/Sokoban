@@ -2,6 +2,17 @@
 Vous trouverez ici les fichiers de base pour le TP noté concernant le jeu du Sokoban
 Les consignes et l'énoncé se trouve à cette address [TP Sokoban](https://techdevprintemps2022.pages.unistra.fr/TP_TechDevEnonce/)
 
+Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipedia](https://fr.wikipedia.org/wiki/Sokoban)
+
+<!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
+<img src="images/sokobanCLIv1.0.0.gif">
+
+J'étais inspiré par ces dépôts git :
+
+* [TD1 - Criblage](https://gitlab.com/qgoestch/td1-criblage)
+* [doxygen-exemple-bidon](https://git.unistra.fr/max.schmitt/doxygen-exemple-bidon)
+* [Generic-Makefile](https://github.com/Leandros/Generic-Makefile/blob/master/Makefile)
+
 ## Étudiants
 **Efe ERKEN**
 
@@ -31,6 +42,21 @@ Apple clang version 14.0.0 (clang-1400.0.29.102)
 ```
 
 ## Dépôt Git
-Le dépôt git de ce projet suit une structure clair et détérminée proposé par Vincent Driessen à son poste [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
+Le dépôt git de [ce projet](https://git.unistra.fr/erken/sokoban) suit une structure clair et détérminée proposé par Vincent Driessen à son poste [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
 
 Du coup ne soyez pas surpris par le fait que `branch main` n'a presque pas de commit. Tout le developpement se passe sur le `branch develop`. Avant chaque version, tout est préparé et assuré fonctionnel pour être inauguré au `branch main` qui n'a que des versions stables et complètes.
+
+### Légende emoji
+La signification des emojis utilisé dans les descriptions des commits git.
+
+Emoji | Signification
+:-|:-
+✨ NEW | Nouveau fichier ou fonctionnalité
+🔧 UPDATE | Mise à jour d'une partie de programme
+🔨 CONFIG | Manipulation des fichiers de configuration comme makefile ou doxyfile
+♻️ REFACTOR | Réécriture d'une partie du programme
+🐛 BUGFIX | Une correction de bogue
+🔥 DELETION | Suppression d'un fichier ou d'une fonctionnalité
+📝 DOC | Manipulation de la documentation
+🎉 EPOCH | Le début du projet
+🚀 RELEASE | Une nouvelle version du programme
