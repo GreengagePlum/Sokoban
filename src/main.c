@@ -2,7 +2,7 @@
  * @file main.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source centrale qui fait marcher le jeu
- * @version 0.1
+ * @version 0.2
  * @date 2022-11-19
  *
  * @copyright Copyright (c) 2022
@@ -32,19 +32,17 @@ int main()
 {
     // on charge le niveau de jeu depuis un fichier
     grid *level = init_level("levels/level1.txt");
+    // on initialise le système d'affichage de niveau
+    init_display();
     char entry = '\0'; // on initialise le stockage pour les entrées de l'utilisateur
     bool run = true; // on initialise l'interrupteur de boucle
     // on continue le jeu tant que l'utilisateur n'a pas appuyé sur 'q'
     while (run)
     {
-        // on affiche les messages sur comment interagir
-        printf("\nAppuyez sur \"q\" pour quitter\n");
-        printf("Appuyez sur \"h, j, k, l\" pour vous déplacer\n\n");
         // on affiche le niveau de jeu
-        display(level);
-        printf("Votre choix : ");
+        draw_display(level);
         // on récupère l'entrée de l'utilisateur
-        scanf(" %c", &entry);
+        entry = input_display();
         // on décide ce qu'on va faire en fonction de l'entrée
         switch (entry)
         {
@@ -61,9 +59,11 @@ int main()
             break;
         // on affiche un message si l'entrée n'est pas définie dans le programme
         default:
-            printf("---> Cette touche n'a pas de fonctionnalité\n");
+            error_input_display();
         }
     }
+    // on referme le système d'affichage de niveau pour désallouer la mémoire qu'il utilisait
+    end_display();
     // on désalloue la structure qui stockait le niveau
     free_level(level);
     return EXIT_SUCCESS;
