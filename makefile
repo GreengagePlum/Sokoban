@@ -14,8 +14,7 @@ EXEC = sokoban
 
 ##### Options
 CPPFLAGS = -I include
-### L'option de debug -g à enlever
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra
 LDFLAGS =
 LDLIBS = -lncurses
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
