@@ -2,7 +2,7 @@
 Vous trouverez ici les fichiers de base pour le TP noté concernant le jeu du Sokoban
 Les consignes et l'énoncé se trouve à cette address [TP Sokoban](https://techdevprintemps2022.pages.unistra.fr/TP_TechDevEnonce/)
 
-Le dépôt git de ce projet se trouve à l'adresse suivante : [Sokoban](https://git.unistra.fr/erken/sokoban) (Cette ligne est pour la page principale de la documentation `doxygen`).
+Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipedia](https://fr.wikipedia.org/wiki/Sokoban)
 
 <!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
 <img src="images/sokobanCLIv1.0.0.gif">
