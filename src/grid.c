@@ -178,48 +178,15 @@ void display(grid *G) {
 }
 
 /**
- * @brief Fonction qui affiche le niveau chargé dans le terminal avec @c ncurses
+ * @brief Fonction qui initialise la bibliothèque d'affichage @c ncurses
  *
- * @param [in] G Pointeur sur la structure qui stocke le niveau
+ * @pre Il faut appeler cette fonction une fois au début du programme
+ * @post Il faut appeler la fonction end_display() à la fin d'utilisation
  *
- * @pre @a G doit être non @c NULL et pointer sur la structure allouée
- * @post Affichage des caractères, appuyez sur 'q' pour quitter
- *
- * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
- * contraire elle utilise la bibliothèque @c <ncurses.h> pour ne pas polluer le terminal
- * avec beaucoup d'affichages inutiles et aussi pour présenter une interface plus agréable
- * et professionnel pour le jeu.
+ * Cette fonction est un wrapper de la fonction d'initialisation @c ncurses
+ * ainsi que d'autres options de celle-ci pour préparer l'affichage du niveau
+ * de jeu avec @c ncurses
  */
-void display_ncurses(grid *G)
-{
-    // on initialise <ncurses.h>
-    initscr();
-    // on efface le buffer d'avant
-    clear();
-    noecho();
-    cbreak();
-    printw("Appuyez sur \"q\" pour quitter\n");
-    // on parcourt chaque ligne et colonne du tableau pour charger dans le buffer
-    for (int row = 0; row < G->row_number; row++)
-    {
-        for (int column = 0; column < G->column_number; column++)
-        {
-            printw("%c", G->game_grid[row][column]);
-        }
-        printw("\n");
-    }
-    // on affiche le buffer, donc le niveau entier
-    refresh();
-    // on attend jusqu'à ce que l'utilisateur appuie sur la touche 'q' pour quitter
-    char quitCar = '\0';
-    while (quitCar != 'q')
-    {
-        quitCar = (char)getch();
-    }
-    // on referme <ncurses.h> pour désallouer la mémoire qu'elle utilisait
-    endwin();
-}
-
 void init_display()
 {
     // on initialise <ncurses.h>
@@ -231,6 +198,20 @@ void init_display()
     cbreak();
 }
 
+/**
+ * @brief Fonction qui affiche le niveau en paramètre dans le terminal avec @c ncurses
+ *
+ * @param [in] G Pointeur sur la structure qui stocke le niveau
+ *
+ * @pre @a G doit être non @c NULL et pointer sur la structure allouée
+ * @pre init_display() a été appellé auparavant
+ * @post Affichage à l'écran
+ *
+ * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
+ * contraire elle utilise la bibliothèque @c ncurses pour ne pas polluer le terminal
+ * avec beaucoup d'affichages inutiles et aussi pour présenter une interface plus agréable
+ * et professionnel pour le jeu.
+ */
 void draw_display(grid *G)
 {
     // on efface le buffer d'avant
@@ -259,6 +240,29 @@ void draw_display(grid *G)
     refresh();
 }
 
+/**
+ * @brief Fonction lit une touche au clavier avec @c ncurses et la renvoie
+ *
+ * @return char
+ *
+ * @pre init_display() a été appellé auparavant
+ * @post Lecture des entrées au clavier
+ *
+ * Cette fonction vide complétement le buffer d'entrée du terminal avant de lire
+ * une touche au clavier et la renvoyer.
+ * L'utilisation de la fonction @c getch() de @c ncurses
+ * est pour des raisons de cohérence mais le plus important, c'est pour lire une touche
+ * sans que l'utilisateur doive appuyer sur la touche Entrée ou sans qu'il voie
+ * la touche appuyée sur l'écran. Cette méthode nous permet de lire les entrées
+ * directement et présenter une intéraction professionnelle. La raison pour laquelle
+ * on vide le buffer avant est que pendant l'affichage d'un message d'erreur ou pendant
+ * qu'on ne traite pas les entrées, l'utilisateur peut continuer à appuyer sur des touches.
+ * Cela pose problème la prochaine fois on lit les entrées au clavier car on veut traiter
+ * la touche la plus récente, non pas les touches qui sont restées dans le buffer pendant
+ * qu'on les traitait pas. D'abord vider le buffer nous permet d'accéder à l'entrée
+ * la plus récente au lieu d'attendre pour que le programme traite toutes celles qui venait
+ * avant la touche la plus récente qui ne sont pas forcément utiles.
+ */
 char input_display()
 {
     // on vide d'abord le buffer d'entrée
@@ -269,6 +273,16 @@ char input_display()
     return (char)getch();
 }
 
+/**
+ * @brief Fonction qui affiche un message d'erreur
+ *
+ * @pre init_display() a été appellé auparavant
+ * @post Affichage à l'écran
+ *
+ * Cette fonction efface l'écran pour après afficher un message d'erreur
+ * au coin à gauche en haut du terminal. Elle laisse 3 secondes à l'utilisateur
+* pour lire le message affiché.
+ */
 void error_input_display()
 {
     // on efface le buffer d'avant
@@ -283,6 +297,15 @@ void error_input_display()
     napms(3000);
 }
 
+/**
+ * @brief Fonction qui termine l'affichage @c ncurses
+ *
+ * @pre Il faut avoir appellé la fonction init_display() auparavant
+ * @post Il faut appeler cette fonction une fois en fin du programme
+ *
+ * Cette fonction referme @c ncurses pour libérer la mémoire utilisée par
+ * celle-ci.
+ */
 void end_display()
 {
     // on referme <ncurses.h> pour désallouer la mémoire qu'elle utilisait
