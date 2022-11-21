@@ -5,7 +5,7 @@ Les consignes et l'énoncé se trouve à cette address [TP Sokoban](https://tech
 Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipedia](https://fr.wikipedia.org/wiki/Sokoban)
 
 <!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
-<img src="images/sokobanCLIv0.2.1.gif">
+<img src="images/sokobanCLIv0.2.2.gif">
 
 J'étais inspiré par ces dépôts git :
 
@@ -27,6 +27,15 @@ Voici vous pouvez trouver les problèmes que j'ai eu lors du developpement et co
 Dans la première version v1.0.0 où on devait juste gérer le mouvement du joueur dans le vide et sur les objectifs, j'étais bloqué car j'arrivait pas à passer le joueur sur les objectifs. Ceci étais dû au fait que mon implémentation de départ étais problématique. Pour bouger le joueur dans le sens voulu, j'échangais la case dans le sens voulu et la case où se situait le joueur. Cette méthode ne marchait bien que quand la case dans le sens voulu étais vide. Si elle étais un objectif, cela revenait à modifier l'emplacement de l'objectif. J'ai du repenser mon approche.
 
 J'ai passé à une méthode conditionnel où en fonction des cases concernées, je modifie manuellement ces cases. J'ai du étendre les représentations des cases dans la structure de jeu pour représenter la superposition du joueur avec un objectif. Grâce à cela, j'ai pu gérer le mouvement sans bouger les emplacements des objectifs et sans utiliser d'autres champs de données dans la structure de jeu pour stocker les positions de chaque objectif.
+
+### Affichage `ncurses`
+À partir des versions 0.2.0 de mon programme, j'ai integré l'affichage à la ligne de commande qui utilise la bibliothèque `ncurses` au lieu des fonctions `printf` et `scanf` de la bibliothèque `stdio`. Avant ce changement mon programme n'avait aucune fuite mémoire ou erreur mémoire après vérification `valgrind`.
+
+J'étais surpris par le nombre de fuites après la nouvelle implémentation d'affichage qui était un changement relativement petit. J'ai appris par après que ces fuites n'étaient pas à cause de mon code à moi mais à cause de la bibliothèque `ncurses`. Cette bibliothèque n'a pas de fuite mémoire d'un point de vue mémoire inaccessible mais ce sont des `free` non faits, du coup la mémoire reste toujours accessible.
+
+Finalement, il n'y a aucune fuite ou erreur mémoire dû à mon code. Elles sont exterieures à moi. Dans le sujet de TP, il est dit d'éviter les fuites et erreurs dû à notre code mais pas dû aux bibliothèques externes utilisées. Ceci ne doit pas poser problème.
+
+Au cas où, la série de versions 0.1.0 utilisent une méthode d'affichage sans la bibliothèque `ncurses`, du coup elles peuvent être considéré 100% pures.
 
 ## Versions gcc/clang
 J'ai utilisé comme compilateur GNU gcc et Apple clang. J'ai utilisé gcc lorsque je travaillait sur les machines de l'UFR et lorsque je travaillait depuis chez moi, j'ai utilisé Apple clang.
