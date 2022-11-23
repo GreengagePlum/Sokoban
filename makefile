@@ -23,7 +23,7 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 ALL_SOURCES = $(wildcard $(SPATH)*.c)
 TEST_SOURCES = $(filter-out $(SPATH)main.c, $(ALL_SOURCES))
 SOURCES = $(filter-out $(SPATH)test.c, $(ALL_SOURCES))
-HEADERS = $(wildcard $(HPATH)*.h)
+ALL_HEADERS = $(wildcard $(HPATH)*.h)
 ALL_OBJECTS = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(ALL_SOURCES))))
 TEST_OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(TEST_SOURCES))))
 OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(SOURCES))))
@@ -37,7 +37,7 @@ DOCPATH = doc/doxygen
 
 ##### Générateur d'archive
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
-ARCHIVE_SOURCES = $(SOURCES) $(HEADERS) makefile $(LEVELS) README.md $(DOXYFILE)
+ARCHIVE_SOURCES = $(SOURCES) $(ALL_HEADERS) makefile $(LEVELS) README.md $(DOXYFILE)
 ARCHIVER = tar
 ARCHIVE_FLAGS = -cvzf
 
@@ -70,8 +70,6 @@ $(DPATH) :
 
 $(ALL_DEPENDS) :
 
-### Un des deux, c'est la même chose
-# include $(wildcard $(ALL_DEPENDS))
 -include $(ALL_DEPENDS)
 
 clean :
