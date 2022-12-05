@@ -2,8 +2,8 @@
  * @file main.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source centrale qui fait marcher le jeu
- * @version 0.2
- * @date 2022-11-19
+ * @version 0.3
+ * @date 2022-12-05
  *
  * @copyright Copyright (c) 2022
  *
@@ -60,6 +60,10 @@ int main()
         // on affiche un message si l'entrée n'est pas définie dans le programme
         default:
             error_input_display();
+        }
+        // on termine le jeu si tous les objectifs sont réussis
+        if (level->goal_number == level->box_over_goal_number) {
+            run = false;
         }
     }
     // on referme le système d'affichage de niveau pour désallouer la mémoire qu'il utilisait
