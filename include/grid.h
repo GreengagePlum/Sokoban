@@ -5,8 +5,8 @@
  * @file grid.h
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier header contenant les structures de données pour traiter les niveaux du jeu sokoban
- * @version 0.2
- * @date 2022-11-14
+ * @version 0.3
+ * @date 2022-12-05
  *
  * @copyright Copyright (c) 2022
  *
@@ -38,19 +38,22 @@ enum CaseType
  *
  * Une fois le jeu est lancé, le fichier contenant le niveau du jeu est chargé dans une instance
  * de cette structure. Les informations stocké sont les suivantes : chaque case du niveau,
- * nombre de ligne et colonne ainsi que la position du joueur dans le niveau.
+ * nombre de lignes et colonnes, nombre d'objectifs du niveau et nombre d'objectifs réussi du niveau
+ * ainsi que la position du joueur dans le niveau.
  */
 typedef struct Grid
 {
     enum CaseType **game_grid; ///< Tableau contenant les entités présents dans le jeu
-    int column_number;         ///< Nombre de colonne de game_grid
-    int row_number;            ///< Nomber de ligne de game_grid
+    int column_number;         ///< Nombre de colonnes de game_grid
+    int row_number;            ///< Nombre de lignes de game_grid
+    int goal_number;           ///< Nombre d'objectifs de game_grid
+    int box_over_goal_number;  ///< Nombre d'objectifs réussi de game_grid
     player player;             ///< Structure pour stocker la position du joueur
 } grid;
 
 grid *init_level(const char *file_path);
 
-grid *creer_level(int row, int column);
+grid *creer_level(int row, int column, int goals);
 
 void free_level(grid *G);
 

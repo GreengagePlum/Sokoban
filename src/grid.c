@@ -2,8 +2,8 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.2
- * @date 2022-11-10
+ * @version 0.3
+ * @date 2022-12-05
  *
  * @copyright Copyright (c) 2022
  *
@@ -25,11 +25,12 @@
  * @pre -
  * @post -
  *
- * Cette fonction prend en paramètre deux arguments tels que le nombre de lignes
- * et le nombre de colonnes du niveau de jeu. Elle alloue dynamiquement la structure @c grid
- * en fonction de cette taille et renvoie un pointeur sur cette structure.
+ * Cette fonction prend en paramètre trois arguments tels que le nombre de lignes,
+ * le nombre de colonnes et le nombre d'objectifs du niveau de jeu. Elle alloue
+ * dynamiquement la structure @c grid en fonction de cette taille et
+ * renvoie un pointeur sur cette structure.
  */
-grid *creer_level(int row, int column)
+grid *creer_level(int row, int column, int goals)
 {
     // on alloue la structure elle-même dynamiquement
     grid *G = (grid *)malloc(sizeof(grid));
@@ -58,9 +59,10 @@ grid *creer_level(int row, int column)
             exit(-1);
         }
     }
-    // on initialise les valeurs de taille du niveau
+    // on initialise les valeurs de taille et d'objectifs du niveau
     G->row_number = row;
     G->column_number = column;
+    G->goal_number = goals;
     return G;
 }
 
@@ -125,10 +127,10 @@ grid *init_level(const char *file_path)
     sscanf(line, "%d %d %d", &number_column, &number_row, &number_goals);
 
     // on alloue la structure pour stocker le niveau
-    grid *level = creer_level(number_row, number_column);
+    grid *level = creer_level(number_row, number_column, number_goals);
 
     int current_row = 0; // la ligne où on se trouve actuellement en lisant le niveau
-    // int current_goal = 0;
+    int current_goal = 0; // le nombre d'objectifs déjà réussi du niveau
     // On lit le fichier ligne par ligne jusqu'à la fin du fichier
     while (fgets(line, 100, file) != NULL)
     {
@@ -140,10 +142,12 @@ grid *init_level(const char *file_path)
             // on charge chaque case dans la structure
             level->game_grid[current_row][current_column] = *buffer;
             // on initialise la position du joueur dans la structure quand on la retrouve
-            if (*buffer == '@')
+            if (*buffer == PLAYER)
             {
                 level->player.x = current_column;
                 level->player.y = current_row;
+            } else if (*buffer == BOX_GOAL) { // on incrémente à chaque fois on trouve un objectif déjà réussi
+                current_goal++;
             }
 
             current_column += 1;
@@ -151,6 +155,8 @@ grid *init_level(const char *file_path)
         }
         current_row += 1;
     }
+    // on sauvegarde le nombre d'objectifs déjà réussi dans la structure de jeu
+    level->box_over_goal_number = current_goal;
     // fermeture du fichier
     fclose(file);
     return level;
