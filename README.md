@@ -48,6 +48,8 @@ Ci-dessous sont les versions des compilateurs que j'ai utilisées.
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 
 Apple clang version 14.0.0 (clang-1400.0.29.102)
+
+Apple clang version 14.0.0 (clang-1400.0.29.202)
 ```
 
 ## Commandes d'utilisation
