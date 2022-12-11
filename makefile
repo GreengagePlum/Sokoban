@@ -24,16 +24,16 @@ ALL_SOURCES = $(wildcard $(SPATH)*.c)
 TEST_SOURCES = $(filter-out $(SPATH)main.c, $(ALL_SOURCES))
 SOURCES = $(filter-out $(SPATH)test.c, $(ALL_SOURCES))
 ALL_HEADERS = $(wildcard $(HPATH)*.h)
-ALL_OBJECTS = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(ALL_SOURCES))))
-TEST_OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(TEST_SOURCES))))
-OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(SOURCES))))
-ALL_DEPENDS = $(addprefix $(DPATH),$(patsubst %.c,%.d,$(notdir $(ALL_SOURCES))))
+ALL_OBJECTS = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(ALL_SOURCES))))
+TEST_OBJECTS  = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(TEST_SOURCES))))
+OBJECTS  = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(SOURCES))))
+ALL_DEPENDS = $(addprefix $(DPATH), $(patsubst %.c,%.d, $(notdir $(ALL_SOURCES))))
 LEVELS = $(wildcard $(LEVELPATH)level*.txt)
 
 ##### Générateur de documentation
 DOCGEN = doxygen
 DOXYFILE = doc/Doxyfile
-DOCPATH = doc/doxygen
+DOCPATH = doc/doxygen/
 
 ##### Générateur d'archive
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
