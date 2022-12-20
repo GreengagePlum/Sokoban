@@ -13,7 +13,7 @@ TEST_EXEC = sokoban_test
 EXEC = sokoban
 
 ##### Options
-CPPFLAGS = -I include
+CPPFLAGS = -Iinclude
 CFLAGS = -Wall -Wextra
 LDFLAGS =
 LDLIBS = -lncurses
@@ -46,20 +46,20 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test clean cleandoc cleanarchive cleanall doc archive
+.PHONY : all test doc archive clean cleandoc cleanarchive cleanall
 
 all : $(EXEC)
 
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
 
 $(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
-	$(CC) $(DEPFLAGS) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -o $@ $<
 	@$(POSTCOMPILE)
 
 $(OPATH) :
