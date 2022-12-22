@@ -15,8 +15,8 @@ EXEC = sokoban
 ##### Options
 CPPFLAGS = -Iinclude
 CFLAGS = -Wall -Wextra
-LDFLAGS =
-LDLIBS = -lncurses
+LDFLAGS = -Llib
+LDLIBS = -lncurses -lSDL2
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 
 ##### Fichiers
@@ -47,14 +47,14 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test doc archive clean cleandoc cleanarchive cleanall
+.PHONY : all test doc archive clean cleandoc cleanarchive cleanall SDL2
 
 all : $(EXEC)
 
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) -o $@ $^
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
@@ -97,3 +97,7 @@ archive : $(ARCHIVE_NAME)
 
 $(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
 	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
+
+SDL2 :
+	cd SDL2 && ./configure --prefix=$(PWD)/
+	cd SDL2 && make install -j6
