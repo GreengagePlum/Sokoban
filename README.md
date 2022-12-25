@@ -4,8 +4,12 @@ Les consignes et l'énoncé se trouvent à cette address [TP Sokoban](https://te
 
 Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipédia](https://fr.wikipedia.org/wiki/Sokoban)
 
+### Sokoban dans le terminal
 <!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
-<img src="images/sokobanCLIv0.2.2.gif">
+<img alt="(Fonctionnement du jeu dans le terminal)" src="images/sokobanCLIv1.0.0.gif">
+
+### Sokoban GUI
+<img alt="(Fonctionnement du jeu avec son GUI)" src="images/sokobanGUIv1.0.0.gif">
 
 Je me suis inspiré de ces dépôts git :
 
@@ -37,6 +41,9 @@ Finalement, il n'y a aucune fuite ou erreur mémoire due à mon code. Elles sont
 
 Au cas où, la série de versions 0.1.0 utilisent une méthode d'affichage sans la bibliothèque `ncurses`, du coup elles peuvent être considérées 100% pures.
 
+### Fonction `event()` avec `fgetc()`
+J'ai du trouver une solution pour vider le buffer avant ou après l'appel à fgetc() pour récupérer une touche au clavier car sinon chaque appui sur la touche entrée causait la fonction event() à renvoyer EVENT_NONE qui causait des affichages en plus inutiles.
+
 ## Versions gcc/clang
 J'ai utilisé comme compilateur GNU gcc et Apple clang. J'ai utilisé gcc lorsque je travaillais sur les machines de l'UFR et lorsque je travaillais depuis chez moi, j'ai utilisé Apple clang.
 
@@ -46,6 +53,8 @@ Ci-dessous sont les versions des compilateurs que j'ai utilisées.
 
 ```
 gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+
+gcc-12 (Homebrew GCC 12.2.0) 12.2.0
 
 Apple clang version 14.0.0 (clang-1400.0.29.102)
 
@@ -69,12 +78,18 @@ Une fois cela est fait, rendez-vous dans le répertoire du projet et compilez.
 ```
 cd sokoban/
 
+make SDL2
+
 make
 ```
 
 Désormais vous pouvez exécuter le jeu tant que vous etes dans le répertoire de celui-ci.
 ```
-./sokoban
+./sokoban --console
+```
+ou
+```
+./sokoban --sdl2
 ```
 
 ### Génération de la documentation
@@ -95,6 +110,11 @@ Pour nettoyer le répertoire du projet pour repartir à zéro il existe plusieur
 Effacer les fichiers de compilation (*.o, *.d, exécutable final). Cela est à faire surtout si vous changez les options de gcc (comme ajouter -g pour déboguer) ou si vous passez à l'exécutable test avec la commande `make test`.
 ```
 make clean
+```
+
+Effacer l'installation SDL2
+```
+make cleanSDL2
 ```
 
 Effacer la documentation et ses répertoires
