@@ -1,3 +1,4 @@
+##### Fichiers objets, bibliothèques et dépendances
 *.o
 *.s
 *.a
@@ -8,14 +9,29 @@
 *.dylib
 *.dll
 *.dSYM
+
+##### Executables
+*.exe
+a.out
+sokoban
+sokoban_test
+
+##### Bibliothèque SDL2
+bin/
+include/SDL2/
+lib/
+share/
+SDL2/build/
+
+##### Générateur de documentation
+doc/doxygen/
+
+##### Générateur d'archive
+ERKEN_Efe.tar.gz
+
+##### Divers
 .ds_store
 .DS_store
 .DS_Store
 .DS_STORE
 .vscode/
-*.exe
-a.out
-doc/doxygen/
-ERKEN_Efe.tar.gz
-sokoban
-sokoban_test

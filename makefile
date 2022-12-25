@@ -13,31 +13,32 @@ TEST_EXEC = sokoban_test
 EXEC = sokoban
 
 ##### Options
-CPPFLAGS = -I include
+CPPFLAGS = -Iinclude
 CFLAGS = -Wall -Wextra
-LDFLAGS =
-LDLIBS = -lncurses
+LDFLAGS = -Llib
+LDLIBS = -lncurses -lSDL2
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 
 ##### Fichiers
 ALL_SOURCES = $(wildcard $(SPATH)*.c)
 TEST_SOURCES = $(filter-out $(SPATH)main.c, $(ALL_SOURCES))
 SOURCES = $(filter-out $(SPATH)test.c, $(ALL_SOURCES))
-HEADERS = $(wildcard $(HPATH)*.h)
-ALL_OBJECTS = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(ALL_SOURCES))))
-TEST_OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(TEST_SOURCES))))
-OBJECTS  = $(addprefix $(OPATH),$(patsubst %.c,%.o,$(notdir $(SOURCES))))
-ALL_DEPENDS = $(addprefix $(DPATH),$(patsubst %.c,%.d,$(notdir $(ALL_SOURCES))))
+ALL_HEADERS = $(wildcard $(HPATH)*.h)
+ALL_OBJECTS = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(ALL_SOURCES))))
+TEST_OBJECTS  = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(TEST_SOURCES))))
+OBJECTS  = $(addprefix $(OPATH), $(patsubst %.c,%.o, $(notdir $(SOURCES))))
+ALL_DEPENDS = $(addprefix $(DPATH), $(patsubst %.c,%.d, $(notdir $(ALL_SOURCES))))
 LEVELS = $(wildcard $(LEVELPATH)level*.txt)
 
 ##### Générateur de documentation
 DOCGEN = doxygen
 DOXYFILE = doc/Doxyfile
-DOCPATH = doc/doxygen
+DOCPATH = doc/doxygen/
+DOCTARGET = $(DOCPATH)html/
 
 ##### Générateur d'archive
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
-ARCHIVE_SOURCES = $(SOURCES) $(HEADERS) makefile $(LEVELS) README.md $(DOXYFILE)
+ARCHIVE_SOURCES = $(SOURCES) $(ALL_HEADERS) makefile $(LEVELS) README.md $(DOXYFILE)
 ARCHIVER = tar
 ARCHIVE_FLAGS = -cvzf
 
@@ -46,20 +47,20 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test clean cleandoc cleanarchive cleanall doc archive
+.PHONY : all test SDL2 doc archive clean cleanSDL2 cleandoc cleanarchive cleanall
 
 all : $(EXEC)
 
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 $(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
-	$(CC) $(DEPFLAGS) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -o $@ $<
 	@$(POSTCOMPILE)
 
 $(OPATH) :
@@ -70,12 +71,13 @@ $(DPATH) :
 
 $(ALL_DEPENDS) :
 
-### Un des deux, c'est la même chose
-# include $(wildcard $(ALL_DEPENDS))
 -include $(ALL_DEPENDS)
 
 clean :
 	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS) $(ALL_DEPENDS)
+
+cleanSDL2 :
+	rm -rf bin/ include/SDL2/ lib/ share/
 
 cleandoc :
 	rm -rf $(DOCPATH)
@@ -84,15 +86,22 @@ cleanarchive :
 	rm -f $(ARCHIVE_NAME)
 
 cleanall : clean
+cleanall : cleanSDL2
 cleanall : cleandoc
 cleanall : cleanarchive
 cleanall :
 	rm -rf $(OPATH) $(DPATH)
 
-doc :
+doc : $(DOCTARGET)
+
+$(DOCTARGET) : $(ALL_SOURCES) $(ALL_HEADERS) README.md $(DOXYFILE)
 	$(DOCGEN) $(DOXYFILE)
 
 archive : $(ARCHIVE_NAME)
 
 $(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
 	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
+
+SDL2 :
+	cd SDL2 && ./configure --prefix=$(PWD)/
+	cd SDL2 && make install -j6
