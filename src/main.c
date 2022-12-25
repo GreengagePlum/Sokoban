@@ -20,6 +20,8 @@
 /**
  * @brief La fonction qui réunit toutes les autres fonctions et structures
  *
+ * @param [in] argc Le nombre d'arguments passé en ligne de commande
+ * @param [in] argv Le contenu des arguments passé en ligne de commande
  * @return int
  *
  * @pre -
