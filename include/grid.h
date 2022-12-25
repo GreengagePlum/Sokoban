@@ -5,8 +5,8 @@
  * @file grid.h
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier header contenant les structures de données pour traiter les niveaux du jeu sokoban
- * @version 0.3
- * @date 2022-12-05
+ * @version 0.4
+ * @date 2022-12-25
  *
  * @copyright Copyright (c) 2022
  *
@@ -31,6 +31,23 @@ enum CaseType
     NONE = ' ',       ///< Le vide
     BOX_GOAL = '*',   ///< Superposition d'une boîte et d'un objectif
     PLAYER_GOAL = '+' ///< Superposition d'un joueur et d'un objectif
+};
+
+/**
+ * @brief Structure indiquant les différents événements dans le jeu
+ *
+ * Cette énumération indique les 6 interactions possibles dans le jeu :
+ * quitter le jeu, aller à gauche, aller en bas, aller en haut, aller
+ * à droite et rien faire.
+ */
+enum Event
+{
+    EVENT_QUIT,
+    EVENT_LEFT,
+    EVENT_DOWN,
+    EVENT_UP,
+    EVENT_RIGHT,
+    EVENT_NONE
 };
 
 /**
@@ -59,14 +76,22 @@ void free_level(grid *G);
 
 void display(grid *G);
 
-void init_display();
+void display_ncurses_init();
 
-void draw_display(grid *G);
+void display_ncurses_draw(grid *G);
 
-char input_display();
+char display_ncurses_input();
 
-void error_input_display();
+void display_ncurses_input_error();
 
-void end_display();
+void display_ncurses_end();
+
+void display_sdl2(grid *G);
+
+enum Event event();
+
+enum Event event_ncurses();
+
+enum Event event_sdl2();
 
 #endif

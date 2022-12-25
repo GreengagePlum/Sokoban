@@ -2,8 +2,8 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.3
- * @date 2022-12-05
+ * @version 0.4
+ * @date 2022-12-25
  *
  * @copyright Copyright (c) 2022
  *
@@ -14,6 +14,7 @@
 #include <ncurses.h>
 #include "grid.h"
 #include "player.h"
+#include "sdl2.h"
 
 /**
  * @brief Fonction qui alloue la grille du jeu
@@ -129,7 +130,7 @@ grid *init_level(const char *file_path)
     // on alloue la structure pour stocker le niveau
     grid *level = creer_level(number_row, number_column, number_goals);
 
-    int current_row = 0; // la ligne où on se trouve actuellement en lisant le niveau
+    int current_row = 0;  // la ligne où on se trouve actuellement en lisant le niveau
     int current_goal = 0; // le nombre d'objectifs déjà réussi du niveau
     // On lit le fichier ligne par ligne jusqu'à la fin du fichier
     while (fgets(line, 100, file) != NULL)
@@ -146,7 +147,9 @@ grid *init_level(const char *file_path)
             {
                 level->player.x = current_column;
                 level->player.y = current_row;
-            } else if (*buffer == BOX_GOAL) { // on incrémente à chaque fois on trouve un objectif déjà réussi
+            }
+            else if (*buffer == BOX_GOAL)
+            { // on incrémente à chaque fois on trouve un objectif déjà réussi
                 current_goal++;
             }
 
@@ -173,10 +176,13 @@ grid *init_level(const char *file_path)
  * Cette fonction parcourt le tableau dans la structure qui stocke les cases du niveau
  * et les affiche chacun. Elle utilise la fonction @c printf() de @c <stdio.h>
  */
-void display(grid *G) {
+void display(grid *G)
+{
     // on parcourt chaque ligne et colonne du tableau pour afficher le niveau
-    for (int row = 0; row < G->row_number; row++) {
-        for (int column = 0; column < G->column_number; column++) {
+    for (int row = 0; row < G->row_number; row++)
+    {
+        for (int column = 0; column < G->column_number; column++)
+        {
             printf("%c", G->game_grid[row][column]);
         }
         printf("\n");
@@ -187,13 +193,13 @@ void display(grid *G) {
  * @brief Fonction qui initialise la bibliothèque d'affichage @c ncurses
  *
  * @pre Il faut appeler cette fonction une fois au début du programme
- * @post Il faut appeler la fonction end_display() à la fin d'utilisation
+ * @post Il faut appeler la fonction display_ncurses_end() à la fin d'utilisation
  *
  * Cette fonction est un wrapper de la fonction d'initialisation @c ncurses
  * ainsi que d'autres options de celle-ci pour préparer l'affichage du niveau
  * de jeu avec @c ncurses
  */
-void init_display()
+void display_ncurses_init()
 {
     // on initialise <ncurses.h>
     initscr();
@@ -210,7 +216,7 @@ void init_display()
  * @param [in] G Pointeur sur la structure qui stocke le niveau
  *
  * @pre @a G doit être non @c NULL et pointer sur la structure allouée
- * @pre init_display() a été appellé auparavant
+ * @pre display_ncurses_init() a été appellé auparavant
  * @post Affichage à l'écran
  *
  * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
@@ -218,7 +224,7 @@ void init_display()
  * avec beaucoup d'affichages inutiles et aussi pour présenter une interface plus agréable
  * et professionnel pour le jeu.
  */
-void draw_display(grid *G)
+void display_ncurses_draw(grid *G)
 {
     // on efface le buffer d'avant
     clear();
@@ -251,7 +257,7 @@ void draw_display(grid *G)
  *
  * @return char
  *
- * @pre init_display() a été appellé auparavant
+ * @pre display_ncurses_init() a été appellé auparavant
  * @post Lecture des entrées au clavier
  *
  * Cette fonction vide complétement le buffer d'entrée du terminal avant de lire
@@ -269,7 +275,7 @@ void draw_display(grid *G)
  * la plus récente au lieu d'attendre pour que le programme traite toutes celles qui venait
  * avant la touche la plus récente qui ne sont pas forcément utiles.
  */
-char input_display()
+char display_ncurses_input()
 {
     // on vide d'abord le buffer d'entrée
     nodelay(stdscr, TRUE);
@@ -282,14 +288,14 @@ char input_display()
 /**
  * @brief Fonction qui affiche un message d'erreur
  *
- * @pre init_display() a été appellé auparavant
+ * @pre display_ncurses_init() a été appellé auparavant
  * @post Affichage à l'écran
  *
  * Cette fonction efface l'écran pour après afficher un message d'erreur
  * au coin à gauche en haut du terminal. Elle laisse 3 secondes à l'utilisateur
-* pour lire le message affiché.
+ * pour lire le message affiché.
  */
-void error_input_display()
+void display_ncurses_input_error()
 {
     // on efface le buffer d'avant
     clear();
@@ -306,14 +312,238 @@ void error_input_display()
 /**
  * @brief Fonction qui termine l'affichage @c ncurses
  *
- * @pre Il faut avoir appellé la fonction init_display() auparavant
+ * @pre Il faut avoir appellé la fonction display_ncurses_init() auparavant
  * @post Il faut appeler cette fonction une fois en fin du programme
  *
  * Cette fonction referme @c ncurses pour libérer la mémoire utilisée par
  * celle-ci.
  */
-void end_display()
+void display_ncurses_end()
 {
     // on referme <ncurses.h> pour désallouer la mémoire qu'elle utilisait
     endwin();
+}
+
+/**
+ * @brief Fonction qui affiche le niveau en paramètre dans une fenêtre avec @c SDL2
+ *
+ * @param [in] G Pointeur sur la structure qui stocke le niveau
+ *
+ * @pre @a G doit être non @c NULL et pointer sur la structure allouée
+ * @pre sdl_init() a été appellé auparavant
+ * @post Affichage à l'écran
+ *
+ * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
+ * contraire elle utilise la bibliothèque @c SDL2 pour des graphismes 2D comme un vrai jeu
+ * et aussi pour présenter une interface plus agréable et professionnel pour le jeu.
+ * Tout l'arrière plan est déssiné une fois, puis, juste les cases non vide (NONE) sont
+ * déssiné avec des couleurs adaptés choisies en fonction de la case à déssiner. Cela est
+ * fait en parcourant toutes les cases de la structure de jeu.
+ */
+void display_sdl2(grid *G)
+{
+    // on choisit la couleur citron pastel pour l'arrière plan
+    SDL_SetRenderDrawColor(context.renderer, 220, 215, 180, 255);
+    // on dessine toute la fenêtre en citron pastel
+    SDL_RenderClear(context.renderer);
+    // on calcule la taille des rectangles représentants les cases du jeu
+    // pour une fenêtre de taille fixe
+    int squareHeight = context.height / G->row_number;
+    int squareWidth = context.width / G->column_number;
+    // on parcourt toutes les cases du niveau
+    for (int row = 0; row < G->row_number; row++)
+    {
+        for (int column = 0; column < G->column_number; column++)
+        {
+            enum CaseType current_case = G->game_grid[row][column];
+            // on choisit une couleur en fonction du type de la case
+            switch (current_case)
+            {
+            case NONE:
+                break;
+            case WALL:
+                // couleur marron pastel
+                SDL_SetRenderDrawColor(context.renderer, 130, 125, 85, 255);
+                break;
+            case BOX:
+                // couleur jaune pastel
+                SDL_SetRenderDrawColor(context.renderer, 180, 135, 85, 255);
+                break;
+            case PLAYER:
+                // couleur bleue pastel
+                SDL_SetRenderDrawColor(context.renderer, 100, 115, 130, 255);
+                break;
+            case GOAL:
+                // couleur grise pastel
+                SDL_SetRenderDrawColor(context.renderer, 155, 150, 120, 255);
+                break;
+            case BOX_GOAL:
+                // couleur marron foncée pastel
+                SDL_SetRenderDrawColor(context.renderer, 95, 60, 25, 255);
+                break;
+            case PLAYER_GOAL:
+                // couleur bleue claire pastel
+                SDL_SetRenderDrawColor(context.renderer, 100, 115, 180, 255);
+                break;
+            }
+            // on dessine un rectangle si la case n'est pas du vide
+            if (current_case != NONE)
+            {
+                SDL_Rect rect = {.x = column * squareWidth, .y = row * squareHeight, .w = squareWidth, .h = squareHeight};
+                SDL_RenderFillRect(context.renderer, &rect);
+            }
+        }
+    }
+    // on affiche dans la fenêtre tous ce qu'on a déssiné
+    SDL_RenderPresent(context.renderer);
+}
+
+/**
+ * @brief Fonction qui renvoie un événement en fonction du clavier
+ *
+ * @return enum Event
+ *
+ * @pre -
+ * @post Affichage à l'écran et lecture des entrées au clavier
+ *
+ * Cette fonction lit une touche au clavier en utilisant @c fgetc() et renvoie
+ * l'événement du jeu correspondant tels que quitter le jeu, aller à gauche,
+ * aller en bas, aller en haut, aller à droite ou rien faire. Cette fonction
+ * est conçue pour être utilisé avec la fonction d'affichage @c display()
+ * qui utilise @c <stdio.h> . Vous pouvez changer les touches de controle de jeu ici.
+ */
+enum Event event()
+{
+    enum Event game_event = EVENT_NONE;
+    // on demande une entrée à l'utilisateur
+    printf("Entrez la direction voulu : ");
+    // on lit un caractère de l'entrée
+    char entry = (char)fgetc(stdin);
+    // on vide le buffer pour la fois prochaine
+    while ((fgetc(stdin)) != '\n');
+    // on décide de l'événement en fonction de l'entrée
+    switch (entry)
+    {
+    // événement = quitter le jeu si l'entrée est 'q'
+    case 'q':
+        game_event = EVENT_QUIT;
+        break;
+    // événement = aller à gauche si l'entrée est 'h'
+    case 'h':
+        game_event = EVENT_LEFT;
+        break;
+    // événement = aller en bas si l'entrée est 'j'
+    case 'j':
+        game_event = EVENT_DOWN;
+        break;
+    // événement = aller en haut si l'entrée est 'k'
+    case 'k':
+        game_event = EVENT_UP;
+        break;
+    // événement = aller à droite si l'entrée est 'l'
+    case 'l':
+        game_event = EVENT_RIGHT;
+        break;
+    }
+    return game_event;
+}
+/**
+ * @brief Fonction qui renvoie un événement en fonction du clavier en utilisant @c <ncurses.h>
+ *
+ * @return enum Event
+ *
+ * @pre Avoir appelé @c display_ncurses_init() auparavant
+ * @post Affichage à l'écran et lecture des entrées au clavier
+ * @post Appeler @c display_ncurses_end() à la fin d'utilisation
+ *
+ * Cette fonction lit une touche au clavier en utilisant @c getch() et renvoie
+ * l'événement du jeu correspondant tels que quitter le jeu, aller à gauche,
+ * aller en bas, aller en haut, aller à droite ou rien faire. Cette fonction
+ * est conçue pour être utilisé avec les fonctions d'affichage @c display_ncurses()
+ * qui utilise @c <ncurses.h> . Vous pouvez changer les touches de controle de jeu ici.
+ */
+enum Event event_ncurses()
+{
+    enum Event game_event = EVENT_NONE;
+    // on récupère l'entrée au clavier
+    char entry = display_ncurses_input();
+    // on décide de l'événement en fonction de l'entrée
+    switch (entry)
+    {
+    // événement = quitter le jeu si l'entrée est 'q'
+    case 'q':
+        game_event = EVENT_QUIT;
+        break;
+    // événement = aller à gauche si l'entrée est 'h'
+    case 'h':
+        game_event = EVENT_LEFT;
+        break;
+    // événement = aller en bas si l'entrée est 'j'
+    case 'j':
+        game_event = EVENT_DOWN;
+        break;
+    // événement = aller en haut si l'entrée est 'k'
+    case 'k':
+        game_event = EVENT_UP;
+        break;
+    // événement = aller à droite si l'entrée est 'l'
+    case 'l':
+        game_event = EVENT_RIGHT;
+        break;
+    // on affiche un message si l'entrée n'est pas définie dans le programme
+    default:
+        display_ncurses_input_error();
+    }
+    return game_event;
+}
+
+/**
+ * @brief Fonction qui renvoie un événement en fonction du clavier en utilisant @c SDL2
+ *
+ * @return enum Event
+ *
+ * @pre Avoir appelé la fonction @c sdl_init() auparavant
+ * @post Lecture des entrées au clavier
+ * @post Appeler la fonction @c sdl_quit() à la fin d'utilisation
+ *
+ * Cette fonction lit un événement clavier en utilisant @c SDL2 et renvoie
+ * l'événement du jeu correspondant tels que quitter le jeu, aller à gauche,
+ * aller en bas, aller en haut, aller à droite ou rien faire. Cette fonction
+ * est conçue pour être utilisé avec les fonctions d'affichage @c display_sdl2()
+ * qui utilise @c SDL2 . Vous pouvez changer les touches de controle de jeu ici.
+ */
+enum Event event_sdl2()
+{
+    enum Event game_event = EVENT_NONE;
+    SDL_Event scan_event;
+    // on initialise la variable SDL2 pour récupérer l'événement SDL2
+    SDL_WaitEvent(&scan_event);
+    // événement = quitter le jeu si on ferme la fenêtre
+    if (scan_event.type == SDL_QUIT)
+    {
+        game_event = EVENT_QUIT;
+    }
+    else if (scan_event.type == SDL_KEYUP)
+    {
+        switch (scan_event.key.keysym.sym)
+        {
+        // événement = aller à gauche si l'entrée est flèche gauche
+        case SDLK_LEFT:
+            game_event = EVENT_LEFT;
+            break;
+        // événement = aller en bas si l'entrée est flèche basse
+        case SDLK_DOWN:
+            game_event = EVENT_DOWN;
+            break;
+        // événement = aller en haut si l'entrée est flèche haute
+        case SDLK_UP:
+            game_event = EVENT_UP;
+            break;
+        // événement = aller à droite si l'entrée est flèche droite
+        case SDLK_RIGHT:
+            game_event = EVENT_RIGHT;
+            break;
+        }
+    }
+    return game_event;
 }
