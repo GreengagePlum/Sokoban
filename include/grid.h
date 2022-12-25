@@ -5,7 +5,7 @@
  * @file grid.h
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier header contenant les structures de données pour traiter les niveaux du jeu sokoban
- * @version 0.4
+ * @version 0.5
  * @date 2022-12-25
  *
  * @copyright Copyright (c) 2022
@@ -42,12 +42,12 @@ enum CaseType
  */
 enum Event
 {
-    EVENT_QUIT,
-    EVENT_LEFT,
-    EVENT_DOWN,
-    EVENT_UP,
-    EVENT_RIGHT,
-    EVENT_NONE
+    EVENT_QUIT,  ///< Quitter le jeu
+    EVENT_LEFT,  ///< Bouger le joueur vers la gauche
+    EVENT_DOWN,  ///< Bouger le joueur vers le bas
+    EVENT_UP,    ///< Bouger le joueur vers le haut
+    EVENT_RIGHT, ///< Bouger le jouer vers la droite
+    EVENT_NONE   ///< Tout autre événement qui n'est pas géré dans le jeu
 };
 
 /**
