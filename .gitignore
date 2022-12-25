@@ -21,16 +21,6 @@ bin/
 include/SDL2/
 lib/
 share/
-SDL2/Makefile
-SDL2/Makefile.rules
-SDL2/config.log
-SDL2/config.status
-SDL2/include/SDL_config.h
-SDL2/include/SDL_revision.h
-SDL2/libtool
-SDL2/sdl2-config
-SDL2/sdl2-config.cmake
-SDL2/sdl2.pc
 SDL2/build/
 
 ##### Générateur de documentation
