@@ -1,5 +1,7 @@
 #include "sdl2.h"
 
+SDLContext context;
+
 void sdl_init()
 {
     int const width = 1280;
