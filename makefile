@@ -47,7 +47,7 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test doc archive clean cleandoc cleanarchive cleanall SDL2
+.PHONY : all test SDL2 doc archive clean cleanSDL2 cleandoc cleanarchive cleanall
 
 all : $(EXEC)
 
@@ -76,6 +76,9 @@ $(ALL_DEPENDS) :
 clean :
 	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS) $(ALL_DEPENDS)
 
+cleanSDL2 :
+	rm -rf bin/ include/SDL2/ lib/ share/
+
 cleandoc :
 	rm -rf $(DOCPATH)
 
@@ -83,6 +86,7 @@ cleanarchive :
 	rm -f $(ARCHIVE_NAME)
 
 cleanall : clean
+cleanall : cleanSDL2
 cleanall : cleandoc
 cleanall : cleanarchive
 cleanall :
