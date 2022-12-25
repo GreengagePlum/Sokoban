@@ -2,7 +2,7 @@
  * @file test.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source pour tester les fonctions avant de les inaugurer
- * @version 0.3
+ * @version 0.4
  * @date 2022-12-25
  *
  * @copyright Copyright (c) 2022
@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <ncurses.h>
 #include "grid.h"
 #include "player.h"
@@ -200,7 +201,7 @@ int main09()
     return 0;
 }
 
-int main()
+int main10()
 {
     /// Test de la fonction event()
     int quit = 0;
@@ -214,4 +215,32 @@ int main()
         }
     }
     return 0;
+}
+
+int main(int argc, char *argv[])
+{
+    /// Test de l'interprétation des arguments de ligne de commande
+    if (argc < 2)
+    {
+        printf("Trop peu d'arguments\n");
+    }
+    else if (argc == 2)
+    {
+        if (strcmp(argv[1], "--sdl2") == 0)
+        {
+            printf("SDL2\n");
+        }
+        else if (strcmp(argv[1], "--console") == 0)
+        {
+            printf("Console\n");
+        }
+        else
+        {
+            printf("Option inconnue\n");
+        }
+    }
+    else
+    {
+        printf("Trop d'arguments\n");
+    }
 }
