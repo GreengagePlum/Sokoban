@@ -54,10 +54,10 @@ all : $(EXEC)
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) $(LDLIBS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
 
 $(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -o $@ $<
