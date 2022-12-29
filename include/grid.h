@@ -5,8 +5,8 @@
  * @file grid.h
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier header contenant les structures de données pour traiter les niveaux du jeu sokoban
- * @version 0.5
- * @date 2022-12-25
+ * @version 0.6
+ * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
  *
@@ -68,6 +68,13 @@ typedef struct Grid
     player player;             ///< Structure pour stocker la position du joueur
 } grid;
 
+// on déclare les pointeurs de fonctions pour pouvoir les utiliser
+// dans les fonctions dans grid.c et player.c
+extern void (*handle_init)();
+extern enum Event (*handle_event)();
+extern void (*handle_display)(grid *);
+extern void (*handle_quit)();
+
 grid *init_level(const char *file_path);
 
 grid *creer_level(int row, int column, int goals);
@@ -93,5 +100,7 @@ enum Event event();
 enum Event event_ncurses();
 
 enum Event event_sdl2();
+
+void exit_routine(grid* G);
 
 #endif

@@ -2,7 +2,7 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.6
+ * @version 0.7
  * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
@@ -553,4 +553,25 @@ enum Event event_sdl2()
         }
     }
     return game_event;
+}
+
+/**
+ * @brief Fonction qui s'occupe des routines de fermeture du programme
+ *
+ * @param [in,out] G Pointeur sur une structure @c grid qui est le niveau de jeu
+ *
+ * @pre Avoir initialisé la structure de jeu @a G
+ * @pre Avoir appelé @c handle_init() auparavant
+ * @post Quitter le programme à l'aide de @c exit() ou ne rien avoir comme instruction après
+ *
+ * Cette fonction est faite pour être appelé avant de quitter le programme. Elle referme la
+ * bibliothèque d'affichage utilisé ainsi que de désallouer la structure de jeu. Elle est à
+ * appeler à la fin du programme ou dans le cas d'une erreur ou il faut quitter le programme
+ * immédiatement tout en respectant le système.
+ */
+void exit_routine(grid* G) {
+    // on referme le système d'affichage de niveau pour désallouer la mémoire qu'il utilisait
+    handle_quit();
+    // on désalloue la structure qui stockait le niveau
+    free_level(G);
 }
