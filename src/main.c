@@ -2,8 +2,8 @@
  * @file main.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source centrale qui fait marcher le jeu
- * @version 0.5
- * @date 2022-12-25
+ * @version 0.6
+ * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
  *
@@ -16,6 +16,14 @@
 #include "grid.h"
 #include "player.h"
 #include "sdl2.h"
+
+// on declare les pointeurs de fonction pour passer de <ncurses.h> à SDL2 et vice versa
+// facilement en fonction des options donnée en ligne de commande
+// ces fonctions ont la portée globale pour pouvoir être utilisé dans d'autres fichiers source
+void (*handle_init)() = NULL;
+enum Event (*handle_event)() = NULL;
+void (*handle_display)(grid *) = NULL;
+void (*handle_quit)() = NULL;
 
 /**
  * @brief La fonction qui réunit toutes les autres fonctions et structures
@@ -35,12 +43,6 @@
  */
 int main(int argc, char *argv[])
 {
-    // on declare les pointeurs de fonction pour passer de <ncurses.h> à SDL2 et vice versa
-    // facilement en fonction des options donnée en ligne de commande
-    void (*handle_init)() = NULL;
-    enum Event (*handle_event)() = NULL;
-    void (*handle_display)(grid *) = NULL;
-    void (*handle_quit)() = NULL;
     if (argc == 1 || (argc == 2 && strcmp(argv[1], "--console") == 0))
     {
         // on initialise les pointeurs de fonction pour l'affichage <ncurses.h>
@@ -106,9 +108,6 @@ int main(int argc, char *argv[])
             run = false;
         }
     }
-    // on referme le système d'affichage de niveau pour désallouer la mémoire qu'il utilisait
-    handle_quit();
-    // on désalloue la structure qui stockait le niveau
-    free_level(level);
+    exit_routine(level);
     return EXIT_SUCCESS;
 }
