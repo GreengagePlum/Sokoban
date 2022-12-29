@@ -2,7 +2,7 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.5
+ * @version 0.6
  * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
@@ -336,15 +336,15 @@ void display_ncurses_end()
  * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
  * contraire elle utilise la bibliothèque @c SDL2 pour des graphismes 2D comme un vrai jeu
  * et aussi pour présenter une interface plus agréable et professionnel pour le jeu.
- * Tout l'arrière plan est déssiné une fois, puis, juste les cases non vide (NONE) sont
+ * Tout l'arrière plan est déssiné une fois dans la couleur des murs, puis, chaque est
  * déssiné avec des couleurs adaptés choisies en fonction de la case à déssiner. Cela est
  * fait en parcourant toutes les cases de la structure de jeu.
  */
 void display_sdl2(grid *G)
 {
-    // on choisit la couleur citron pastel pour l'arrière plan
-    SDL_SetRenderDrawColor(context.renderer, 220, 215, 180, 255);
-    // on dessine toute la fenêtre en citron pastel
+    // on choisit la couleur marron pastel pour l'arrière plan
+    SDL_SetRenderDrawColor(context.renderer, 130, 125, 85, 255);
+    // on dessine toute la fenêtre en marron pastel
     SDL_RenderClear(context.renderer);
     // on calcule la taille des rectangles représentants les cases du jeu
     // pour une fenêtre de taille fixe
@@ -359,8 +359,6 @@ void display_sdl2(grid *G)
             // on choisit une couleur en fonction du type de la case
             switch (current_case)
             {
-            case NONE:
-                break;
             case WALL:
                 // couleur marron pastel
                 SDL_SetRenderDrawColor(context.renderer, 130, 125, 85, 255);
@@ -377,21 +375,26 @@ void display_sdl2(grid *G)
                 // couleur grise pastel
                 SDL_SetRenderDrawColor(context.renderer, 155, 150, 120, 255);
                 break;
+            case NONE:
+                // couleur citron pastel
+                SDL_SetRenderDrawColor(context.renderer, 220, 215, 180, 255);
+                break;
             case BOX_GOAL:
                 // couleur marron foncée pastel
                 SDL_SetRenderDrawColor(context.renderer, 95, 60, 25, 255);
                 break;
             case PLAYER_GOAL:
-                // couleur bleue claire pastel
-                SDL_SetRenderDrawColor(context.renderer, 100, 115, 180, 255);
+                // couleur bleue foncée pastel
+                SDL_SetRenderDrawColor(context.renderer, 50, 65, 80, 255);
                 break;
+            default:
+                // couleur rouge
+                SDL_SetRenderDrawColor(context.renderer, 255, 0, 0, 255);
             }
-            // on dessine un rectangle si la case n'est pas du vide
-            if (current_case != NONE)
-            {
-                SDL_Rect rect = {.x = column * squareWidth, .y = row * squareHeight, .w = squareWidth, .h = squareHeight};
-                SDL_RenderFillRect(context.renderer, &rect);
-            }
+            // on crée un rectangle correspondant à la case de taille et de position voulu
+            SDL_Rect rect = {.x = column * squareWidth, .y = row * squareHeight, .w = squareWidth, .h = squareHeight};
+            // on dessine le rectangle de la case avec la couleur choisie
+            SDL_RenderFillRect(context.renderer, &rect);
         }
     }
     // on affiche dans la fenêtre tous ce qu'on a déssiné
