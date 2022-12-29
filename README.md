@@ -63,7 +63,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ## Commandes d'utilisation
 
-### Comment compiler ?
+### Comment compiler et exécuter ?
 D'abord téléchargez le projet sur votre machine avec une des commandes qui suivent :
 
 ```

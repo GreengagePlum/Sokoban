@@ -2,8 +2,8 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.4
- * @date 2022-12-25
+ * @version 0.7
+ * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
  *
@@ -70,7 +70,7 @@ grid *creer_level(int row, int column, int goals)
 /**
  * @brief Fonction pour désallouer la structure du jeu
  *
- * @param [in] G Pointeur sur une structure @c grid
+ * @param [in,out] G Pointeur sur une structure @c grid
  *
  * @pre @a G doit être non @c NULL et pointer sur la structure allouée
  * @post @a G contient toujours l'adresse qu'il avait
@@ -336,15 +336,15 @@ void display_ncurses_end()
  * Cette fonction affiche le niveau du jeu comme la fonction @c display() mais au
  * contraire elle utilise la bibliothèque @c SDL2 pour des graphismes 2D comme un vrai jeu
  * et aussi pour présenter une interface plus agréable et professionnel pour le jeu.
- * Tout l'arrière plan est déssiné une fois, puis, juste les cases non vide (NONE) sont
+ * Tout l'arrière plan est déssiné une fois dans la couleur des murs, puis, chaque est
  * déssiné avec des couleurs adaptés choisies en fonction de la case à déssiner. Cela est
  * fait en parcourant toutes les cases de la structure de jeu.
  */
 void display_sdl2(grid *G)
 {
-    // on choisit la couleur citron pastel pour l'arrière plan
-    SDL_SetRenderDrawColor(context.renderer, 220, 215, 180, 255);
-    // on dessine toute la fenêtre en citron pastel
+    // on choisit la couleur marron pastel pour l'arrière plan
+    SDL_SetRenderDrawColor(context.renderer, 130, 125, 85, 255);
+    // on dessine toute la fenêtre en marron pastel
     SDL_RenderClear(context.renderer);
     // on calcule la taille des rectangles représentants les cases du jeu
     // pour une fenêtre de taille fixe
@@ -359,8 +359,6 @@ void display_sdl2(grid *G)
             // on choisit une couleur en fonction du type de la case
             switch (current_case)
             {
-            case NONE:
-                break;
             case WALL:
                 // couleur marron pastel
                 SDL_SetRenderDrawColor(context.renderer, 130, 125, 85, 255);
@@ -377,21 +375,26 @@ void display_sdl2(grid *G)
                 // couleur grise pastel
                 SDL_SetRenderDrawColor(context.renderer, 155, 150, 120, 255);
                 break;
+            case NONE:
+                // couleur citron pastel
+                SDL_SetRenderDrawColor(context.renderer, 220, 215, 180, 255);
+                break;
             case BOX_GOAL:
                 // couleur marron foncée pastel
                 SDL_SetRenderDrawColor(context.renderer, 95, 60, 25, 255);
                 break;
             case PLAYER_GOAL:
-                // couleur bleue claire pastel
-                SDL_SetRenderDrawColor(context.renderer, 100, 115, 180, 255);
+                // couleur bleue foncée pastel
+                SDL_SetRenderDrawColor(context.renderer, 50, 65, 80, 255);
                 break;
+            default:
+                // couleur rouge
+                SDL_SetRenderDrawColor(context.renderer, 255, 0, 0, 255);
             }
-            // on dessine un rectangle si la case n'est pas du vide
-            if (current_case != NONE)
-            {
-                SDL_Rect rect = {.x = column * squareWidth, .y = row * squareHeight, .w = squareWidth, .h = squareHeight};
-                SDL_RenderFillRect(context.renderer, &rect);
-            }
+            // on crée un rectangle correspondant à la case de taille et de position voulu
+            SDL_Rect rect = {.x = column * squareWidth, .y = row * squareHeight, .w = squareWidth, .h = squareHeight};
+            // on dessine le rectangle de la case avec la couleur choisie
+            SDL_RenderFillRect(context.renderer, &rect);
         }
     }
     // on affiche dans la fenêtre tous ce qu'on a déssiné
@@ -523,27 +526,52 @@ enum Event event_sdl2()
     {
         game_event = EVENT_QUIT;
     }
-    else if (scan_event.type == SDL_KEYUP)
+    else if (scan_event.type == SDL_KEYDOWN)
     {
         switch (scan_event.key.keysym.sym)
         {
-        // événement = aller à gauche si l'entrée est flèche gauche
+        // événement = aller à gauche si l'entrée est flèche gauche ou h
+        case SDLK_h:
         case SDLK_LEFT:
             game_event = EVENT_LEFT;
             break;
-        // événement = aller en bas si l'entrée est flèche basse
+        // événement = aller en bas si l'entrée est flèche basse ou j
+        case SDLK_j:
         case SDLK_DOWN:
             game_event = EVENT_DOWN;
             break;
-        // événement = aller en haut si l'entrée est flèche haute
+        // événement = aller en haut si l'entrée est flèche haute ou k
+        case SDLK_k:
         case SDLK_UP:
             game_event = EVENT_UP;
             break;
-        // événement = aller à droite si l'entrée est flèche droite
+        // événement = aller à droite si l'entrée est flèche droite ou l
+        case SDLK_l:
         case SDLK_RIGHT:
             game_event = EVENT_RIGHT;
             break;
         }
     }
     return game_event;
+}
+
+/**
+ * @brief Fonction qui s'occupe des routines de fermeture du programme
+ *
+ * @param [in,out] G Pointeur sur une structure @c grid qui est le niveau de jeu
+ *
+ * @pre Avoir initialisé la structure de jeu @a G
+ * @pre Avoir appelé @c handle_init() auparavant
+ * @post Quitter le programme à l'aide de @c exit() ou ne rien avoir comme instruction après
+ *
+ * Cette fonction est faite pour être appelé avant de quitter le programme. Elle referme la
+ * bibliothèque d'affichage utilisé ainsi que de désallouer la structure de jeu. Elle est à
+ * appeler à la fin du programme ou dans le cas d'une erreur ou il faut quitter le programme
+ * immédiatement tout en respectant le système.
+ */
+void exit_routine(grid* G) {
+    // on referme le système d'affichage de niveau pour désallouer la mémoire qu'il utilisait
+    handle_quit();
+    // on désalloue la structure qui stockait le niveau
+    free_level(G);
 }
