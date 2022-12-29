@@ -2,8 +2,8 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.4
- * @date 2022-12-25
+ * @version 0.5
+ * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
  *
@@ -70,7 +70,7 @@ grid *creer_level(int row, int column, int goals)
 /**
  * @brief Fonction pour désallouer la structure du jeu
  *
- * @param [in] G Pointeur sur une structure @c grid
+ * @param [in,out] G Pointeur sur une structure @c grid
  *
  * @pre @a G doit être non @c NULL et pointer sur la structure allouée
  * @post @a G contient toujours l'adresse qu'il avait
@@ -523,23 +523,27 @@ enum Event event_sdl2()
     {
         game_event = EVENT_QUIT;
     }
-    else if (scan_event.type == SDL_KEYUP)
+    else if (scan_event.type == SDL_KEYDOWN)
     {
         switch (scan_event.key.keysym.sym)
         {
-        // événement = aller à gauche si l'entrée est flèche gauche
+        // événement = aller à gauche si l'entrée est flèche gauche ou h
+        case SDLK_h:
         case SDLK_LEFT:
             game_event = EVENT_LEFT;
             break;
-        // événement = aller en bas si l'entrée est flèche basse
+        // événement = aller en bas si l'entrée est flèche basse ou j
+        case SDLK_j:
         case SDLK_DOWN:
             game_event = EVENT_DOWN;
             break;
-        // événement = aller en haut si l'entrée est flèche haute
+        // événement = aller en haut si l'entrée est flèche haute ou k
+        case SDLK_k:
         case SDLK_UP:
             game_event = EVENT_UP;
             break;
-        // événement = aller à droite si l'entrée est flèche droite
+        // événement = aller à droite si l'entrée est flèche droite ou l
+        case SDLK_l:
         case SDLK_RIGHT:
             game_event = EVENT_RIGHT;
             break;
