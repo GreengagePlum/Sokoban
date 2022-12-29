@@ -2,8 +2,8 @@
  * @file player.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant la fonction pour traiter le mouvement du joueur
- * @version 0.2
- * @date 2022-12-05
+ * @version 0.3
+ * @date 2022-12-29
  *
  * @copyright Copyright (c) 2022
  *
@@ -66,27 +66,24 @@ void move_player(grid* G, enum Direction D) {
         if (box_target == WALL || box_target == BOX || box_target == BOX_GOAL) {
             return;
         } else if (box_target == GOAL) {
+            G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
+            G->game_grid[target_row][target_column] = PLAYER;
             if (player == PLAYER) {
-                G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
-                G->game_grid[target_row][target_column] = PLAYER;
                 G->game_grid[G->player.y][G->player.x] = NONE;
-                G->box_over_goal_number++;
             } else if (player == PLAYER_GOAL) {
-                G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
-                G->game_grid[target_row][target_column] = PLAYER;
                 G->game_grid[G->player.y][G->player.x] = GOAL;
-                G->box_over_goal_number++;
             }
+            G->box_over_goal_number++;
         } else if (box_target == NONE) {
+            G->game_grid[box_target_row][box_target_column] = BOX;
+            G->game_grid[target_row][target_column] = PLAYER;
             if (player == PLAYER) {
-                G->game_grid[box_target_row][box_target_column] = BOX;
-                G->game_grid[target_row][target_column] = PLAYER;
                 G->game_grid[G->player.y][G->player.x] = NONE;
             } else if (player == PLAYER_GOAL) {
-                G->game_grid[box_target_row][box_target_column] = BOX;
-                G->game_grid[target_row][target_column] = PLAYER;
                 G->game_grid[G->player.y][G->player.x] = GOAL;
             }
+        } else {
+            move_player_error(G);
         }
     } else if (target == BOX_GOAL) {
         int box_target_row = target_row + (target_row - G->player.y);
@@ -95,48 +92,60 @@ void move_player(grid* G, enum Direction D) {
         if (box_target == WALL || box_target == BOX || box_target == BOX_GOAL) {
             return;
         } else if (box_target == GOAL) {
+            G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
+            G->game_grid[target_row][target_column] = PLAYER_GOAL;
             if (player == PLAYER) {
-                G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
-                G->game_grid[target_row][target_column] = PLAYER_GOAL;
                 G->game_grid[G->player.y][G->player.x] = NONE;
             } else if (player == PLAYER_GOAL) {
-                G->game_grid[box_target_row][box_target_column] = BOX_GOAL;
-                G->game_grid[target_row][target_column] = PLAYER_GOAL;
                 G->game_grid[G->player.y][G->player.x] = GOAL;
             }
         } else if (box_target == NONE) {
+            G->game_grid[box_target_row][box_target_column] = BOX;
+            G->game_grid[target_row][target_column] = PLAYER_GOAL;
             if (player == PLAYER) {
-                G->game_grid[box_target_row][box_target_column] = BOX;
-                G->game_grid[target_row][target_column] = PLAYER_GOAL;
                 G->game_grid[G->player.y][G->player.x] = NONE;
-                G->box_over_goal_number--;
             } else if (player == PLAYER_GOAL) {
-                G->game_grid[box_target_row][box_target_column] = BOX;
-                G->game_grid[target_row][target_column] = PLAYER_GOAL;
                 G->game_grid[G->player.y][G->player.x] = GOAL;
-                G->box_over_goal_number--;
             }
+            G->box_over_goal_number--;
+        } else {
+            move_player_error(G);
         }
     } else if (target == GOAL) {
+        G->game_grid[target_row][target_column] = PLAYER_GOAL;
         if (player == PLAYER) {
-            G->game_grid[target_row][target_column] = PLAYER_GOAL;
             G->game_grid[G->player.y][G->player.x] = NONE;
         } else if (player == PLAYER_GOAL) {
-            G->game_grid[target_row][target_column] = PLAYER_GOAL;
             G->game_grid[G->player.y][G->player.x] = GOAL;
         }
     } else if (target == NONE) {
+        G->game_grid[target_row][target_column] = PLAYER;
         if (player == PLAYER) {
-            G->game_grid[target_row][target_column] = PLAYER;
             G->game_grid[G->player.y][G->player.x] = NONE;
         } else if (player == PLAYER_GOAL) {
-            G->game_grid[target_row][target_column] = PLAYER;
             G->game_grid[G->player.y][G->player.x] = GOAL;
         }
     } else {
-        fprintf(stderr, "Error this level map has features unmanaged by the game\n");
-        exit(-1);
+        move_player_error(G);
     }
     G->player.x = target_column;
     G->player.y = target_row;
+}
+
+/**
+ * @brief Fonction qui affiche un message d'erreur et quitte le jeu
+ *
+ * @param [in,out] G Pointeur sur une structure @c grid qui est le niveau de jeu
+ *
+ * @pre Avoir initialisé la structure de jeu @a G
+ * @pre Avoir appelé @c handle_init() auparavant
+ * @post -
+ *
+ * Cette fonction execute la routine de fin, affiche un message d'erreur pour le cas où le
+ * jeu rencontre un caractère inconnu dans le niveau et quitte le jeu immédiatement.
+ */
+void move_player_error(grid* G) {
+    exit_routine(G);
+    fprintf(stderr, "Error, this level map has features unmanaged by the game\n");
+    exit(1);
 }
