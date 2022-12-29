@@ -70,10 +70,10 @@ typedef struct Grid
 
 // on déclare les pointeurs de fonctions pour pouvoir les utiliser
 // dans les fonctions dans grid.c et player.c
-extern void (*handle_init)();
-extern enum Event (*handle_event)();
-extern void (*handle_display)(grid *);
-extern void (*handle_quit)();
+extern void (*handle_init)();          ///< Fonction d'initialisation de <ncurses.h> ou SDL2
+extern enum Event (*handle_event)();   ///< Fonction d'évènement de <ncurses.h> ou SDL2
+extern void (*handle_display)(grid *); ///< Fonction d'affichage de <ncurses.h> ou SDL2
+extern void (*handle_quit)();          ///< Fonction de fermeture de <ncurses.h> ou SDL2
 
 grid *init_level(const char *file_path);
 
