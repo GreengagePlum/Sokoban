@@ -2,8 +2,8 @@
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.7
- * @date 2022-12-29
+ * @version 0.8
+ * @date 2023-01-05
  *
  * @copyright Copyright (c) 2022
  *
@@ -38,7 +38,7 @@ grid *creer_level(int row, int column, int goals)
     // on vérifie si l'allocation s'est bien passée
     if (G == NULL)
     {
-        fprintf(stderr, "Error game structure alloc failed");
+        fprintf(stderr, "Error game structure alloc failed\n");
         exit(-1);
     }
     // on alloue la première dimension du tableau dynamique à deux dimensions dans la structure
@@ -46,7 +46,7 @@ grid *creer_level(int row, int column, int goals)
     // on vérifie si l'allocation s'est bien passée
     if (G->game_grid == NULL)
     {
-        fprintf(stderr, "Error game_grid row alloc failed");
+        fprintf(stderr, "Error game_grid row alloc failed\n");
         exit(-1);
     }
     // on alloue la deuxième dimension du tableau dynamique
@@ -56,7 +56,7 @@ grid *creer_level(int row, int column, int goals)
         // on vérifie si l'allocation s'est bien passée
         if (G->game_grid[i] == NULL)
         {
-            fprintf(stderr, "Error game_grid column alloc failed");
+            fprintf(stderr, "Error game_grid column alloc failed\n");
             exit(-1);
         }
     }
@@ -115,7 +115,7 @@ grid *init_level(const char *file_path)
     // vérification si le fichier est bien ouvert
     if (!file)
     {
-        fprintf(stderr, "Error %s not found", file_path);
+        fprintf(stderr, "Error %s not found\n", file_path);
         exit(-1);
     }
     char line[100] = {0};  // buffer pour lire une ligne dans le fichier
@@ -530,6 +530,10 @@ enum Event event_sdl2()
     {
         switch (scan_event.key.keysym.sym)
         {
+        // événement = quitter le jeu si l'entrée est q
+        case SDLK_q:
+            game_event = EVENT_QUIT;
+            break;
         // événement = aller à gauche si l'entrée est flèche gauche ou h
         case SDLK_h:
         case SDLK_LEFT:
