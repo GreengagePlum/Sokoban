@@ -112,6 +112,8 @@ ou
 
 ### Génération de la documentation
 
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **doxygen**, **graphviz**.
+
 Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/doxygen/html/index.html` dans votre navigateur de web préféré.
 
 ```
