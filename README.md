@@ -19,6 +19,7 @@ Je me suis inspiré de ces dépôts git :
 * [TD1 - Criblage](https://gitlab.com/qgoestch/td1-criblage)
 * [doxygen-exemple-bidon](https://git.unistra.fr/max.schmitt/doxygen-exemple-bidon)
 * [Generic-Makefile](https://github.com/Leandros/Generic-Makefile/blob/master/Makefile)
+* [todo-md](https://github.com/todo-md/todo-md)
 
 ## Étudiants
 
