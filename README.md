@@ -74,7 +74,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ### Comment compiler et exécuter ?
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **gcc**, **make**, **libsdl2-2.0.0**, **libsdl2-dev**, **libncurses-dev**, **libncurses6**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **gcc** (GNU C toolchain), **make**, **libsdl2**, **libsdl2-dev**, **libncurses**, **libncurses-dev**.
 
 Puis téléchargez le projet sur votre machine avec une des commandes qui suivent :
 
@@ -112,7 +112,7 @@ ou
 
 ### Génération de la documentation
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **doxygen**, **graphviz**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **doxygen**, **graphviz**.
 
 Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/doxygen/html/index.html` dans votre navigateur de web préféré.
 
@@ -161,6 +161,18 @@ Cela est une commande qui regroupe toutes celles qui viennent avant. Elle efface
 ```
 make cleanall
 ```
+
+## Comment jouer ?
+
+Utilisez les touches 'h', 'j', 'k', 'l' pour vous déplacer (ou aussi les touches fléchées si vous êtes en mode --sdl2).
+
+Appuyez sur 'q' pour quitter le jeu.
+
+Poussez les boites sur les multiples cibles dans le niveau. Une fois toutes les cibles sont couvertes vous gagnez. Vous ne pouvez pas tirer les boites et vous ne pouvez pas pousser deux ou plus de boites en même temps.
+
+## Licence
+
+Ce projet est sous la licence GPLv3 ou toute version ultérieure.
 
 ## Dépôt Git
 
