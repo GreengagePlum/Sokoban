@@ -34,7 +34,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
  *
  */
 
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 /**
  * @brief Structure contenant les informations pour l'affichage @c SDL2

@@ -93,8 +93,6 @@ Une fois cela est fait, rendez-vous dans le répertoire du projet et compilez.
 ```
 cd sokoban/
 
-make SDL2
-
 make
 ```
 
@@ -136,12 +134,6 @@ Effacer les fichiers de compilation (\*.o, \*.d, exécutable final). Cela est à
 
 ```
 make clean
-```
-
-Effacer l'installation SDL2
-
-```
-make cleanSDL2
 ```
 
 Effacer la documentation et ses répertoires

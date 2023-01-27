@@ -33,10 +33,9 @@ TEST_EXEC = sokoban_test
 EXEC = sokoban
 
 ##### Options
-CPPFLAGS = -Iinclude
+CPPFLAGS = -Iinclude $$(sdl2-config --cflags)
 CFLAGS = -Wall -Wextra
-LDFLAGS = -Llib
-LDLIBS = -lncurses -lSDL2
+LDFLAGS = $$(sdl2-config --libs) -lncurses
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 
 ##### Fichiers
@@ -67,17 +66,17 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test SDL2 doc archive clean cleanSDL2 cleandoc cleanarchive cleanall
+.PHONY : all test doc archive clean cleandoc cleanarchive cleanall
 
 all : $(EXEC)
 
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -o $@ $<
@@ -96,9 +95,6 @@ $(ALL_DEPENDS) :
 clean :
 	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS) $(ALL_DEPENDS)
 
-cleanSDL2 :
-	rm -rf bin/ include/SDL2/ lib/ share/
-
 cleandoc :
 	rm -rf $(DOCPATH)
 
@@ -106,7 +102,6 @@ cleanarchive :
 	rm -f $(ARCHIVE_NAME)
 
 cleanall : clean
-cleanall : cleanSDL2
 cleanall : cleandoc
 cleanall : cleanarchive
 cleanall :
@@ -121,7 +116,3 @@ archive : $(ARCHIVE_NAME)
 
 $(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
 	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
-
-SDL2 :
-	cd SDL2 && ./configure --prefix=$(PWD)/
-	cd SDL2 && make install -j6
