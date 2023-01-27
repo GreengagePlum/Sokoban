@@ -1,5 +1,9 @@
 # TODO
 
+## Bugs & Fixes
+
+- [ ] fix level relative path
+
 ## Features
 
 - [ ] Printf display method implementation to add
@@ -24,15 +28,14 @@
 - [ ] GitLab Releases
 - [ ] Cicd pages, test
 - [ ] Packaging and distribution in universal formats
-- [ ] version number script
 - [ ] uninstall script
 - [ ] git release script (Python)
+    - [ ] version number script
 - [ ] git commit message hook
 - [ ] INSTALL
 - [ ] UNINSTALL
 - [ ] CONTRIBUTING
 - [ ] CHANGELOG
-- [ ] gcc -std=cXX
 - [ ] Bin folder for executable
 - [ ] Archive folder for archive ? (maybe)
 - [ ] Dynamic debug compilation in makefile (by passing in argument when calling make CFLAGS=-g)
@@ -49,3 +52,4 @@
 - [x] LICENCE
 - [x] System SDL2 installation
 - [x] TODO
+- [x] gcc -std=cXX (specify C standard)
