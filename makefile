@@ -34,7 +34,7 @@ EXEC = sokoban
 
 ##### Options
 CPPFLAGS = -Iinclude $$(sdl2-config --cflags)
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -std=iso9899:2018
 LDFLAGS = $$(sdl2-config --libs) -lncurses
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 
