@@ -1,3 +1,7 @@
+stages:
+  - deploy
+  - release
+
 pages:
   stage: deploy
   # The Docker image that will be used to build your app
@@ -18,4 +22,19 @@ pages:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   tags:
     - kubernetes
+
+release_job:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG                 # Run this job when a tag is created
+  script:
+    - echo "running release_job for $CI_COMMIT_TAG"
+    - echo "# Changes in this release\n" > CHANGELOG.md
+    - LAST_TAGS=$(git for-each-ref --sort='-*committerdate' --count=2 --format '%(refname:short)' refs/tags)
+    - git log --pretty="- %s" --no-merges --reverse $(echo $LAST_TAGS | tail -n 1)..$(echo $LAST_TAGS | head -n 1) >> CHANGELOG.md
+  release:                               # See https://docs.gitlab.com/ee/ci/yaml/#release for available properties
+    tag_name: $CI_COMMIT_TAG
+    name: 'Release $CI_COMMIT_TAG'
+    description: './/CHANGELOG.md'
 
