@@ -17,7 +17,7 @@ sokoban
 sokoban_test
 
 ##### Générateur de documentation
-doc/doxygen/
+doc/public/
 
 ##### Générateur d'archive
 ERKEN_Efe.tar.gz

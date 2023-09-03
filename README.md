@@ -5,6 +5,8 @@ Les consignes et l'énoncé se trouvent à cette address [TP Sokoban](https://te
 
 Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipédia](https://fr.wikipedia.org/wiki/Sokoban)
 
+La documentation en ligne pour ce projet est hébergé par GitLab Pages et se trouve à l'adresse https://erken.pages.unistra.fr/sokoban. C'est construit automatiquement lors de chaque sortie par une méthode de CI/CD.
+
 ### Sokoban dans le terminal
 
 <!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
@@ -113,11 +115,13 @@ ou
 
 D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **doxygen**, **graphviz**.
 
-Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/doxygen/html/index.html` dans votre navigateur de web préféré.
+Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/public/index.html` dans votre navigateur de web préféré.
 
 ```
 make doc
 ```
+
+Ou bien, vous pouvez visualiser la [documentation en ligne](https://erken.pages.unistra.fr/sokoban) de la dernière version.
 
 ### Génération d'une archive redistribuable
 

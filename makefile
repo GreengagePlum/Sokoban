@@ -52,8 +52,7 @@ LEVELS = $(wildcard $(LEVELPATH)level*.txt)
 ##### Générateur de documentation
 DOCGEN = doxygen
 DOXYFILE = doc/Doxyfile
-DOCPATH = doc/doxygen/
-DOCTARGET = $(DOCPATH)html/
+DOCPATH = doc/public/
 
 ##### Générateur d'archive
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
@@ -107,9 +106,9 @@ cleanall : cleanarchive
 cleanall :
 	rm -rf $(OPATH) $(DPATH)
 
-doc : $(DOCTARGET)
+doc : $(DOCPATH)
 
-$(DOCTARGET) : $(ALL_SOURCES) $(ALL_HEADERS) README.md $(DOXYFILE)
+$(DOCPATH) : $(ALL_SOURCES) $(ALL_HEADERS) README.md $(DOXYFILE)
 	$(DOCGEN) $(DOXYFILE)
 
 archive : $(ARCHIVE_NAME)
