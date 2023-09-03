@@ -1,11 +1,33 @@
+/*
+Game level management functions for Sokoban
+Copyright (C) 2022, 2023 Efe ERKEN
+
+This file is part of Sokoban
+
+Sokoban is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Sokoban is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Sokoban.  If not, see <https://www.gnu.org/licenses/>.
+
+SPDX-License-Identifier: GPL-3.0-or-later
+*/
+
 /**
  * @file grid.c
  * @author Efe ERKEN (efe.erken@etu.unistra.fr)
  * @brief Fichier source contenant les fonctions pour traiter les niveaux du jeu sokoban
- * @version 0.8
- * @date 2023-01-05
+ * @version 0.9
+ * @date 2023-01-24
  *
- * @copyright Copyright (c) 2022
+ * @copyright Copyright (C) 2022, 2023 Efe ERKEN
  *
  */
 

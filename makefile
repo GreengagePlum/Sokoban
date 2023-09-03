@@ -1,3 +1,23 @@
+# Makefile for project compilation
+# Copyright (C) 2022, 2023 Efe ERKEN
+#
+# This file is part of Sokoban
+#
+# Sokoban is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Sokoban is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Sokoban.  If not, see <https://www.gnu.org/licenses/>.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 ##### Commun
 CC = gcc
 
@@ -13,10 +33,9 @@ TEST_EXEC = sokoban_test
 EXEC = sokoban
 
 ##### Options
-CPPFLAGS = -Iinclude
-CFLAGS = -Wall -Wextra
-LDFLAGS = -Llib
-LDLIBS = -lncurses -lSDL2
+CPPFLAGS = -Iinclude $$(sdl2-config --cflags)
+CFLAGS = -Wall -Wextra -std=iso9899:2018
+LDFLAGS = $$(sdl2-config --libs) -lncurses
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DPATH)$*.Td
 
 ##### Fichiers
@@ -33,8 +52,7 @@ LEVELS = $(wildcard $(LEVELPATH)level*.txt)
 ##### Générateur de documentation
 DOCGEN = doxygen
 DOXYFILE = doc/Doxyfile
-DOCPATH = doc/doxygen/
-DOCTARGET = $(DOCPATH)html/
+DOCPATH = doc/public/
 
 ##### Générateur d'archive
 ARCHIVE_NAME = ERKEN_Efe.tar.gz
@@ -47,17 +65,17 @@ ARCHIVE_FLAGS = -cvzf
 POSTCOMPILE = mv -f $(DPATH)$*.Td $(DPATH)$*.d && touch $@
 
 ##### Règles de construction
-.PHONY : all test SDL2 doc archive clean cleanSDL2 cleandoc cleanarchive cleanall
+.PHONY : all test doc archive clean cleandoc cleanarchive cleanall
 
 all : $(EXEC)
 
 test : $(TEST_EXEC)
 
 $(EXEC) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(TEST_EXEC) : $(TEST_OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LDLIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 $(OPATH)%.o : $(SPATH)%.c $(DPATH)%.d | $(OPATH) $(DPATH)
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEPFLAGS) -o $@ $<
@@ -76,9 +94,6 @@ $(ALL_DEPENDS) :
 clean :
 	rm -f $(EXEC) $(TEST_EXEC) $(ALL_OBJECTS) $(ALL_DEPENDS)
 
-cleanSDL2 :
-	rm -rf bin/ include/SDL2/ lib/ share/
-
 cleandoc :
 	rm -rf $(DOCPATH)
 
@@ -86,22 +101,17 @@ cleanarchive :
 	rm -f $(ARCHIVE_NAME)
 
 cleanall : clean
-cleanall : cleanSDL2
 cleanall : cleandoc
 cleanall : cleanarchive
 cleanall :
 	rm -rf $(OPATH) $(DPATH)
 
-doc : $(DOCTARGET)
+doc : $(DOCPATH)
 
-$(DOCTARGET) : $(ALL_SOURCES) $(ALL_HEADERS) README.md $(DOXYFILE)
+$(DOCPATH) : $(ALL_SOURCES) $(ALL_HEADERS) README.md $(DOXYFILE)
 	$(DOCGEN) $(DOXYFILE)
 
 archive : $(ARCHIVE_NAME)
 
 $(ARCHIVE_NAME) : $(ARCHIVE_SOURCES)
 	$(ARCHIVER) $(ARCHIVE_FLAGS) $@ $^
-
-SDL2 :
-	cd SDL2 && ./configure --prefix=$(PWD)/
-	cd SDL2 && make install -j6

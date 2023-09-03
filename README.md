@@ -5,6 +5,8 @@ Les consignes et l'énoncé se trouvent à cette address [TP Sokoban](https://te
 
 Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. [Article Wikipédia](https://fr.wikipedia.org/wiki/Sokoban)
 
+La documentation en ligne pour ce projet est hébergé par GitLab Pages et se trouve à l'adresse https://erken.pages.unistra.fr/sokoban. C'est construit automatiquement lors de chaque sortie par une méthode de CI/CD.
+
 ### Sokoban dans le terminal
 
 <!-- Pour la compatibilité de GitLab et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
@@ -19,6 +21,7 @@ Je me suis inspiré de ces dépôts git :
 * [TD1 - Criblage](https://gitlab.com/qgoestch/td1-criblage)
 * [doxygen-exemple-bidon](https://git.unistra.fr/max.schmitt/doxygen-exemple-bidon)
 * [Generic-Makefile](https://github.com/Leandros/Generic-Makefile/blob/master/Makefile)
+* [todo-md](https://github.com/todo-md/todo-md)
 
 ## Étudiants
 
@@ -74,7 +77,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ### Comment compiler et exécuter ?
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **gcc**, **make**, **libsdl2-2.0.0**, **libsdl2-dev**, **libncurses-dev**, **libncurses6**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **gcc** (GNU C toolchain), **make**, **libsdl2**, **libsdl2-dev**, **libncurses**, **libncurses-dev**.
 
 Puis téléchargez le projet sur votre machine avec une des commandes qui suivent :
 
@@ -93,8 +96,6 @@ Une fois cela est fait, rendez-vous dans le répertoire du projet et compilez.
 ```
 cd sokoban/
 
-make SDL2
-
 make
 ```
 
@@ -112,13 +113,15 @@ ou
 
 ### Génération de la documentation
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **doxygen**, **graphviz**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **doxygen**, **graphviz**.
 
-Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/doxygen/html/index.html` dans votre navigateur de web préféré.
+Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/public/index.html` dans votre navigateur de web préféré.
 
 ```
 make doc
 ```
+
+Ou bien, vous pouvez visualiser la [documentation en ligne](https://erken.pages.unistra.fr/sokoban) de la dernière version.
 
 ### Génération d'une archive redistribuable
 
@@ -138,12 +141,6 @@ Effacer les fichiers de compilation (\*.o, \*.d, exécutable final). Cela est à
 make clean
 ```
 
-Effacer l'installation SDL2
-
-```
-make cleanSDL2
-```
-
 Effacer la documentation et ses répertoires
 
 ```
@@ -161,6 +158,18 @@ Cela est une commande qui regroupe toutes celles qui viennent avant. Elle efface
 ```
 make cleanall
 ```
+
+## Comment jouer ?
+
+Utilisez les touches 'h', 'j', 'k', 'l' pour vous déplacer (ou aussi les touches fléchées si vous êtes en mode --sdl2).
+
+Appuyez sur 'q' pour quitter le jeu.
+
+Poussez les boites sur les multiples cibles dans le niveau. Une fois toutes les cibles sont couvertes vous gagnez. Vous ne pouvez pas tirer les boites et vous ne pouvez pas pousser deux ou plus de boites en même temps.
+
+## Licence
+
+Ce projet est sous la licence GPLv3 ou toute version ultérieure.
 
 ## Dépôt Git
 

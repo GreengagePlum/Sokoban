@@ -16,15 +16,8 @@ a.out
 sokoban
 sokoban_test
 
-##### Bibliothèque SDL2
-bin/
-include/SDL2/
-lib/
-share/
-SDL2/build/
-
 ##### Générateur de documentation
-doc/doxygen/
+doc/public/
 
 ##### Générateur d'archive
 ERKEN_Efe.tar.gz
