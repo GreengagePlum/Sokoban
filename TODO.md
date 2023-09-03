@@ -26,7 +26,6 @@
 ## Configuration
 
 - [ ] GitLab Releases
-- [ ] Cicd pages, test
 - [ ] Packaging and distribution in universal formats
 - [ ] uninstall script
 - [ ] git release script (Python)
@@ -46,6 +45,7 @@
 
 ## Done
 
+- [x] CI/CD pages
 - [x] Doxygen depends on source and header files
     - [x] Centralize sources and objects instead of test_sources and main_sources so on (depending on make variable given) (this could make makefile simpler and make it easier to implement doxygen which depends on sources and headers where i won’t need to create multiple doxygen targets for different scenarios. One with dynamic variable will suffice)
 - [x] Add homebrew gcc version to README
