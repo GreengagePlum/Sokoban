@@ -1,0 +1,58 @@
+name: test
+on: [push, pull_request, workflow_dispatch]
+env:
+  PIP_CACHE_DIR: "${{ github.workspace }}/.cache/pip"
+  PRE_COMMIT_HOME: "${{ github.workspace }}/.cache/pre-commit"
+jobs:
+  test1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v3
+      with:
+        path: |
+          .cache/
+          .venv/
+        key: ${{ runner.os }}-python
+        restore-keys: |
+          ${{ runner.os }}-python
+    - name: Setup Python
+      run: |
+        python --version ; pip --version  # For debugging
+        python -m venv .venv/
+        source .venv/bin/activate
+    - name: Install Dependencies
+      run: pip install pre-commit
+    - run: pre-commit run -a
+  test2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/cache@v3
+      with:
+        path: |
+          .cache/
+          .venv/
+        key: ${{ runner.os }}-python
+        restore-keys: |
+          ${{ runner.os }}-python
+    - name: Setup Python
+      run: |
+        python --version ; pip --version  # For debugging
+        python -m venv .venv/
+        source .venv/bin/activate
+    - name: Install Dependencies
+      run: |
+        sudo apt -y update
+        sudo apt -y install libncurses-dev libsdl2-dev
+        pip install pre-commit
+    - run: pre-commit run -a --hook-stage pre-push make
+    - uses: actions/upload-artifact@v3
+      with:
+        name: "test-artifact"
+        path: |
+          .
+          !.cache/
+          !.venv/
