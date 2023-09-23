@@ -14,4 +14,3 @@ condition=$(echo "$LAST_TAGS" | wc -l);[ $condition -le 1 ] && PREVIOUS_TAG=$(gi
 printf "# Changes in this release\n\n"
 
 git --no-pager log --pretty="- [%as] %h %s" --no-merges --reverse ${PREVIOUS_TAG}..${CURRENT_TAG}
-
