@@ -61,7 +61,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ### How to compile and execute?
 
-First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): **gcc** (GNU C toolchain), **make**, **libsdl2**, **libsdl2-dev**, **libncurses**, **libncurses-dev**.
+First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): `gcc` (GNU C toolchain), `make`, `libsdl2`, `libsdl2-dev` (for the compilation), `libncurses`, `libncurses-dev` (for the compilation).
 
 Then download the project on your machine with one of the following commands:
 
@@ -69,7 +69,7 @@ Then download the project on your machine with one of the following commands:
 git clone https://github.com/GreengagePlum/Sokoban.git
 ```
 
-ou
+or
 
 ```sh
 git clone git@github.com:GreengagePlum/Sokoban.git
@@ -89,7 +89,7 @@ From now on you can execute the game so long as you're in its directory.
 ./sokoban --console
 ```
 
-ou
+on
 
 ```sh
 ./sokoban --sdl2
@@ -97,7 +97,7 @@ ou
 
 ### Generate the documentation
 
-First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): **doxygen**, **graphviz**.
+First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): `doxygen`, `graphviz`.
 
 To generate the documentation for your copy of the program, use the following command and take a look at the file `doc/public/index.html` in your favorite web browser.
 
@@ -141,6 +141,27 @@ This is a command that groups together all that came before. It removes all the 
 
 ```sh
 make cleanall
+```
+
+### Development environment
+
+To have a developer environment for this projet to develop locally or to make contributions, follow the past instructions to get the source code and install the dependencies.
+
+Ensuite, vous pouvez si vous choisissez, configurer les tests pour pouvoir les effectuer en local et aussi pour avoir un avis sur comment serait le resultat des tests sur le serveur effectué en CI/CD.
+
+Next, you can if you wish, configure the tests to be able to run them locally and also, to have an idea on how the results of the tests on the server done by CI/CD would be.
+
+To do this, install `python` (version 3) and [`pre-commit`](https://pre-commit.com/).
+
+Once you have `python`,
+
+```sh
+python -m venv .venv                            # I advise you to create a virtual environment with your favorite method
+source .venv/bin/activate                       # Activate the virtual environment
+pip install --upgrade pip                       # Upgrade pip
+pip install pre-commit                          # Install pre-commit
+pre-commit install -t pre-commit -t pre-push    # Configure the git hooks
+pre-commit run -a --hook-stage pre-push         # Run all the tests for the first time
 ```
 
 ## How to play?

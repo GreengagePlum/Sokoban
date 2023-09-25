@@ -44,6 +44,7 @@
 
 ## Done
 
+- [x] Add pre-commit instructions to READMEs
 - [x] GitLab Releases
 - [x] CI/CD pages
 - [x] Doxygen depends on source and header files

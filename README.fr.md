@@ -85,7 +85,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ### Comment compiler et exécuter ?
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **gcc** (GNU C toolchain), **make**, **libsdl2**, **libsdl2-dev**, **libncurses**, **libncurses-dev**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : `gcc` (GNU C toolchain), `make`, `libsdl2`, `libsdl2-dev` (pour la compilation), `libncurses`, `libncurses-dev` (pour la compilation).
 
 Puis téléchargez le projet sur votre machine avec une des commandes qui suivent :
 
@@ -121,7 +121,7 @@ ou
 
 ### Génération de la documentation
 
-D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : **doxygen**, **graphviz**.
+D'abord installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, brew, etc.) : `doxygen`, `graphviz`.
 
 Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un oeil au fichier `doc/public/index.html` dans votre navigateur de web préféré.
 
@@ -165,6 +165,25 @@ Cela est une commande qui regroupe toutes celles qui viennent avant. Elle efface
 
 ```sh
 make cleanall
+```
+
+### Environnement de développement
+
+Pour avoir un environnement de développement pour ce projet pour développer en local ou bien pour faire des contributions, suivez les instructions auparavant pour récuperer le code source et installer les dépendances.
+
+Ensuite, vous pouvez si vous choisissez, configurer les tests pour pouvoir les effectuer en local et aussi pour avoir un avis sur comment serait le resultat des tests sur le serveur effectué en CI/CD.
+
+Pour ce faire, installez `python` (version 3) et [`pre-commit`](https://pre-commit.com/).
+
+Une fois vous avez `python`,
+
+```sh
+python -m venv .venv                            # Je conseille de creer un environnment virtuel avec votre méthode préférée
+source .venv/bin/activate                       # Activer l'environnement virtuel
+pip install --upgrade pip                       # Mettre à jour pip
+pip install pre-commit                          # Installer pre-commit
+pre-commit install -t pre-commit -t pre-push    # Configurer les git hooks
+pre-commit run -a --hook-stage pre-push         # Effectuer tous les tests pour une premère fois
 ```
 
 ## Comment jouer ?
