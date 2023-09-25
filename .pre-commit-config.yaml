@@ -26,6 +26,27 @@ repos:
         name: make (compile-test)
         stages: [pre-push]
         language: system
-        entry: make
+        entry: sh -c 'OUT_PATH=pre-commit-test/build/ ; make OPATH=${OUT_PATH} DPATH=${OUT_PATH} EXEC=${OUT_PATH}sokoban ; rm -rf ${OUT_PATH}'
+        pass_filenames: false
+        always_run: true
+      - id: make-ci
+        name: make (ci-compile-test)
+        stages: [manual]
+        language: system
+        entry: sh -c 'OUT_PATH=pre-commit-test/build/ ; make OPATH=${OUT_PATH} DPATH=${OUT_PATH} EXEC=${OUT_PATH}sokoban'
+        pass_filenames: false
+        always_run: true
+      - id: make-doc
+        name: make (doc-test)
+        stages: [pre-push]
+        language: system
+        entry: sh -c 'OUT_PATH=pre-commit-test/doc/ ; make DOCPATH=${OUT_PATH} doc ; rm -rf ${OUT_PATH}'
+        pass_filenames: false
+        always_run: true
+      - id: make-doc-ci
+        name: make (ci-doc-test)
+        stages: [manual]
+        language: system
+        entry: sh -c 'OUT_PATH=pre-commit-test/doc/ ; make DOCPATH=${OUT_PATH} doc'
         pass_filenames: false
         always_run: true
