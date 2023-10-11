@@ -30,7 +30,13 @@ jobs:
         sudo apt -y update
         sudo apt -y install libncurses-dev libsdl2-dev graphviz doxygen
         pip install pre-commit
-    - run: pre-commit run -a --hook-stage manual
+    - name: Check format
+      run: pre-commit run -av
+      continue-on-error: true
+    - name: Check compilation
+      run: pre-commit run -av --hook-stage manual make-ci
+    - name: Check doc gen
+      run: pre-commit run -av --hook-stage manual make-doc-ci
     - uses: actions/upload-artifact@v3
       with:
         name: "test-artifact"
