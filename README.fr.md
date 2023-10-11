@@ -1,7 +1,8 @@
 # Sokoban
 
 <!-- Pour la compatibilité de Github et de Doxygen en même temps j'ai du utiliser cette ligne de html pour attacher une image -->
-<a href="https://github.com/GreengagePlum/Sokoban/commits/main"><img alt="état du pipeline" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml/badge.svg"/></a>
+<a href="https://github.com/GreengagePlum/Sokoban/actions/workflows/test.yml"><img alt="état du pipeline test" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/test.yml/badge.svg"/></a>
+<a href="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml"><img alt="état du pipeline deploy" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml/badge.svg"/></a>
 
 <a href="https://github.com/GreengagePlum/Sokoban/blob/main/README.md"><img alt="en" src="https://img.shields.io/badge/lang-en-red.svg"/></a>
 <a href="https://github.com/GreengagePlum/Sokoban/blob/main/README.fr.md"><img alt="fr" src="https://img.shields.io/badge/lang-fr-yellow.svg"/></a>
