@@ -6,6 +6,10 @@
 
 ## Features
 
+- [ ] Add more levels
+  - [ ] Add level progression
+  - [ ] Add level selection
+  - [ ] Add level importing
 - [ ] Printf display method implementation to add
 - [ ] Resizable SDL2 window
 - [ ] Ncurses terminal window size warning
