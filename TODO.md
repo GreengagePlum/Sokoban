@@ -6,6 +6,10 @@
 
 ## Features
 
+- [ ] Add more levels
+  - [ ] Add level progression
+  - [ ] Add level selection
+  - [ ] Add level importing
 - [ ] Printf display method implementation to add
 - [ ] Resizable SDL2 window
 - [ ] Ncurses terminal window size warning
@@ -44,6 +48,7 @@
 
 ## Done
 
+- [x] Add pre-commit instructions to READMEs
 - [x] GitLab Releases
 - [x] CI/CD pages
 - [x] Doxygen depends on source and header files

@@ -22,6 +22,11 @@ doc/public/
 ##### Générateur d'archive
 ERKEN_Efe.tar.gz
 
+##### Tests pre-commit
+venv/
+.venv/
+pre-commit-test/
+
 ##### Divers
 .ds_store
 .DS_store

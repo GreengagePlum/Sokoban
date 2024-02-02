@@ -109,7 +109,8 @@ cleanall :
 doc : $(DOCPATH)
 
 $(DOCPATH) : $(ALL_SOURCES) $(ALL_HEADERS) README.fr.md $(DOXYFILE)
-	$(DOCGEN) $(DOXYFILE)
+	DOXY_OUT=$@ $(DOCGEN) $(DOXYFILE)
+
 
 archive : $(ARCHIVE_NAME)
 

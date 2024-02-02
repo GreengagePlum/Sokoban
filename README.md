@@ -1,7 +1,8 @@
 # Sokoban
 
 <!-- For the compatibility of Github and Doxygen at the same time I had to use this line of html to attach an image -->
-<a href="https://github.com/GreengagePlum/Sokoban/commits/main"><img alt="pipeline status" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml/badge.svg"/></a>
+<a href="https://github.com/GreengagePlum/Sokoban/actions/workflows/test.yml"><img alt="test workflow status" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/test.yml/badge.svg"/></a>
+<a href="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml"><img alt="deploy workflow status" src="https://github.com/GreengagePlum/Sokoban/actions/workflows/deploy.yml/badge.svg"/></a>
 
 <a href="https://github.com/GreengagePlum/Sokoban/blob/main/README.md"><img alt="en" src="https://img.shields.io/badge/lang-en-red.svg"/></a>
 <a href="https://github.com/GreengagePlum/Sokoban/blob/main/README.fr.md"><img alt="fr" src="https://img.shields.io/badge/lang-fr-yellow.svg"/></a>
@@ -10,9 +11,9 @@ Here is a programming project in C that I've carried out during the second year 
 
 You'll find here [the base files for](https://git.unistra.fr/techdevprintemps2022/SokobanTechDev) the project concerning the game of Sokoban. The instructions are to be found at this address [TP Sokoban](https://techdevprintemps2022.pages.unistra.fr/TP_TechDevEnonce/)
 
-Sokoban is a puzzle video game invented in Japan. The player has to move the crates to the target spots. The player can move in the four directions and push (but not pull) a single box at a time. Once all the crates are put away (it's sometimes a real headache), the level is complete and the player moves on to the next level. ([Wikipedia article](https://en.wikipedia.org/wiki/Sokoban))
+Sokoban is a puzzle video game invented in Japan. The player has to move the crates to the target spots. The player can move in the four directions and push (but not pull) a single crate at a time. Once all the crates are put away (it's sometimes a real headache), the level is complete and the player moves on to the next level. ([Wikipedia article](https://en.wikipedia.org/wiki/Sokoban))
 
-The online documentation for this project is hosted by Github Pages and is found at this address <https://greengageplum.github.io/sokoban/>. It is automatically built during each release using Github Actions. **Attention**, the documentation is in **French** since I carried out this project during my bachelor's in France.
+The online documentation for this project is hosted by Github Pages and is found at this address <https://greengageplum.github.io/Sokoban/>. It is automatically built during each release using Github Actions. **Attention**, the documentation is in **French** since I carried out this project during my bachelor's in France.
 
 ## A preview
 
@@ -24,7 +25,7 @@ The online documentation for this project is hosted by Github Pages and is found
 
 <img alt="(Game running with its GUI)" src="images/sokobanGUIv1.0.0.gif"/>
 
-I was inspired by these git repos :
+I was inspired by these git repos:
 
 * [TD1 - Criblage](https://gitlab.com/qgoestch/td1-criblage)
 * [doxygen-exemple-bidon](https://git.unistra.fr/max.schmitt/doxygen-exemple-bidon)
@@ -35,9 +36,9 @@ I was inspired by these git repos :
 
 **Efe ERKEN**
 
-Year : 2nd year 3rd semester Autumn 2022
+Year: 2nd year 3rd semester Autumn 2022
 
-Groups : TD2-TP4
+Groups: TD2-TP4
 
 ## gcc/clang versions
 
@@ -61,7 +62,7 @@ Apple clang version 14.0.0 (clang-1400.0.29.202)
 
 ### How to compile and execute?
 
-First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): **gcc** (GNU C toolchain), **make**, **libsdl2**, **libsdl2-dev**, **libncurses**, **libncurses-dev**.
+First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): `gcc` (GNU C toolchain), `make`, `libsdl2`, `libsdl2-dev` (for the compilation), `libncurses`, `libncurses-dev` (for the compilation).
 
 Then download the project on your machine with one of the following commands:
 
@@ -69,7 +70,7 @@ Then download the project on your machine with one of the following commands:
 git clone https://github.com/GreengagePlum/Sokoban.git
 ```
 
-ou
+or
 
 ```sh
 git clone git@github.com:GreengagePlum/Sokoban.git
@@ -89,7 +90,7 @@ From now on you can execute the game so long as you're in its directory.
 ./sokoban --console
 ```
 
-ou
+or
 
 ```sh
 ./sokoban --sdl2
@@ -97,7 +98,7 @@ ou
 
 ### Generate the documentation
 
-First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): **doxygen**, **graphviz**.
+First, install the dependencies with your package manager (apt, dnf, apk, brew, etc.): `doxygen`, `graphviz`.
 
 To generate the documentation for your copy of the program, use the following command and take a look at the file `doc/public/index.html` in your favorite web browser.
 
@@ -105,7 +106,7 @@ To generate the documentation for your copy of the program, use the following co
 make doc
 ```
 
-Or else, you could see the [online documentation](https://greengageplum.github.io/sokoban/) for the latest version.
+Or else, you could see the [online documentation](https://greengageplum.github.io/Sokoban/) for the latest version.
 
 ### Generate a redistributable archive
 
@@ -141,6 +142,27 @@ This is a command that groups together all that came before. It removes all the 
 
 ```sh
 make cleanall
+```
+
+### Development environment
+
+To have a developer environment for this projet to develop locally or to make contributions, follow the past instructions to get the source code and install the dependencies.
+
+Ensuite, vous pouvez si vous choisissez, configurer les tests pour pouvoir les effectuer en local et aussi pour avoir un avis sur comment serait le resultat des tests sur le serveur effectué en CI/CD.
+
+Next, you can if you wish, configure the tests to be able to run them locally and also, to have an idea on how the results of the tests on the server done by CI/CD would be.
+
+To do this, install `python` (version 3) and [`pre-commit`](https://pre-commit.com/).
+
+Once you have `python`,
+
+```sh
+python -m venv .venv                            # I advise you to create a virtual environment with your favorite method
+source .venv/bin/activate                       # Activate the virtual environment
+pip install --upgrade pip                       # Upgrade pip
+pip install pre-commit                          # Install pre-commit
+pre-commit install -t pre-commit -t pre-push    # Configure the git hooks
+pre-commit run -a --hook-stage pre-push         # Run all the tests for the first time
 ```
 
 ## How to play?
