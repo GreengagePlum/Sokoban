@@ -11,9 +11,9 @@ Here is a programming project in C that I've carried out during the second year 
 
 You'll find here [the base files for](https://git.unistra.fr/techdevprintemps2022/SokobanTechDev) the project concerning the game of Sokoban. The instructions are to be found at this address [TP Sokoban](https://techdevprintemps2022.pages.unistra.fr/TP_TechDevEnonce/)
 
-Sokoban is a puzzle video game invented in Japan. The player has to move the crates to the target spots. The player can move in the four directions and push (but not pull) a single box at a time. Once all the crates are put away (it's sometimes a real headache), the level is complete and the player moves on to the next level. ([Wikipedia article](https://en.wikipedia.org/wiki/Sokoban))
+Sokoban is a puzzle video game invented in Japan. The player has to move the crates to the target spots. The player can move in the four directions and push (but not pull) a single crate at a time. Once all the crates are put away (it's sometimes a real headache), the level is complete and the player moves on to the next level. ([Wikipedia article](https://en.wikipedia.org/wiki/Sokoban))
 
-The online documentation for this project is hosted by Github Pages and is found at this address <https://greengageplum.github.io/sokoban/>. It is automatically built during each release using Github Actions. **Attention**, the documentation is in **French** since I carried out this project during my bachelor's in France.
+The online documentation for this project is hosted by Github Pages and is found at this address <https://greengageplum.github.io/Sokoban/>. It is automatically built during each release using Github Actions. **Attention**, the documentation is in **French** since I carried out this project during my bachelor's in France.
 
 ## A preview
 
@@ -25,7 +25,7 @@ The online documentation for this project is hosted by Github Pages and is found
 
 <img alt="(Game running with its GUI)" src="images/sokobanGUIv1.0.0.gif"/>
 
-I was inspired by these git repos :
+I was inspired by these git repos:
 
 * [TD1 - Criblage](https://gitlab.com/qgoestch/td1-criblage)
 * [doxygen-exemple-bidon](https://git.unistra.fr/max.schmitt/doxygen-exemple-bidon)
@@ -36,9 +36,9 @@ I was inspired by these git repos :
 
 **Efe ERKEN**
 
-Year : 2nd year 3rd semester Autumn 2022
+Year: 2nd year 3rd semester Autumn 2022
 
-Groups : TD2-TP4
+Groups: TD2-TP4
 
 ## gcc/clang versions
 
@@ -90,7 +90,7 @@ From now on you can execute the game so long as you're in its directory.
 ./sokoban --console
 ```
 
-on
+or
 
 ```sh
 ./sokoban --sdl2
@@ -106,7 +106,7 @@ To generate the documentation for your copy of the program, use the following co
 make doc
 ```
 
-Or else, you could see the [online documentation](https://greengageplum.github.io/sokoban/) for the latest version.
+Or else, you could see the [online documentation](https://greengageplum.github.io/Sokoban/) for the latest version.
 
 ### Generate a redistributable archive
 

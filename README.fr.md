@@ -13,7 +13,7 @@ Vous trouverez ici [les fichiers de base pour](https://git.unistra.fr/techdevpri
 
 Sokoban est un jeu vidéo de réflexion inventé au Japon. Le joueur doit ranger des caisses sur des cases cibles. Il peut se déplacer dans les quatre directions, et pousser (mais pas tirer) une seule caisse à la fois. Une fois toutes les caisses rangées (c'est parfois un vrai casse-tête), le niveau est réussi et le joueur passe au niveau suivant. ([Article Wikipédia](https://fr.wikipedia.org/wiki/Sokoban))
 
-La documentation en ligne pour ce projet est hébergé par Github Pages et se trouve à l'adresse <https://greengageplum.github.io/sokoban/>. C'est construit automatiquement lors de chaque sortie à l'aide de Github Actions. **Attention**, la documentation est en **français** car j'ai réalisé ce projet pendant ma licence en France.
+La documentation en ligne pour ce projet est hébergé par Github Pages et se trouve à l'adresse <https://greengageplum.github.io/Sokoban/>. C'est construit automatiquement lors de chaque sortie à l'aide de Github Actions. **Attention**, la documentation est en **français** car j'ai réalisé ce projet pendant ma licence en France.
 
 ## Un aperçu
 
